@@ -28,28 +28,30 @@
 
     <TextView
         android:id="@+id/text_view_greeting"
-        style="@style/Tiny_Inter_Black_16sp_Gray_dark"
         android:layout_width="@dimen/_0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10dp"
+        android:fontFamily="@font/inter_black"
         android:textAlignment="textStart"
+        android:textColor="@color/gray_dark"
+        android:textSize="@dimen/_16sp"
         app:layout_constraintBottom_toTopOf="@+id/text_view_full_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/card_view"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/greeting" />
 
     <TextView
         android:id="@+id/text_view_full_name"
-        style="@style/Tiny_Lato_Black_16sp_White"
         android:layout_width="@dimen/_0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10dp"
+        android:fontFamily="@font/lato_black"
         android:textAlignment="textStart"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/card_view"
         app:layout_constraintTop_toBottomOf="@+id/text_view_greeting"
         tools:text="@string/full_name" />
