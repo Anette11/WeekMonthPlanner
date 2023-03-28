@@ -4,5 +4,6 @@
     <string name="fragment_2_name">Unknown 2 fragment</string>
     <string name="greeting">HI,</string>
     <string name="full_name">STEPAN STEPANOV</string>
+    <string name="today">TODAY</string>
     <string name="empty" />
 </resources>
