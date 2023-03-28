@@ -2,7 +2,7 @@ package com.example.weekmonthplanner.screen_items;
 
 public class ItemMainBlockMenu implements ScreenItem {
 
-    private String buttonText;
+    private final String buttonText;
 
     public ItemMainBlockMenu(String buttonText) {
         this.buttonText = buttonText;
@@ -10,9 +10,5 @@ public class ItemMainBlockMenu implements ScreenItem {
 
     public String getButtonText() {
         return buttonText;
-    }
-
-    public void setButtonText(String buttonText) {
-        this.buttonText = buttonText;
     }
 }
