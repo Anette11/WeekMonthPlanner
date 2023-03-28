@@ -5,5 +5,7 @@
     <string name="greeting">HI,</string>
     <string name="full_name">STEPAN STEPANOV</string>
     <string name="today">TODAY</string>
+    <string name="main_block_menu">MainBlockMenu</string>
+    <string name="exercise_1_completed">Exercise1 completed</string>
     <string name="empty" />
 </resources>
