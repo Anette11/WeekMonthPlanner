@@ -5,9 +5,10 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/Tiny_Lato_16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unknown 2 fragment"
+        android:text="@string/fragment_2_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
