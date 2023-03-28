@@ -8,6 +8,8 @@
     <string name="main_block_menu">MainBlockMenu</string>
     <string name="exercise_1_completed">Exercise1 completed</string>
     <string name="example_date">Friday, September 17</string>
+    <string name="example_day_of_month">15</string>
+    <string name="example_day_of_week">WED</string>
     <string name="example_exercise">Exercise3</string>
     <string name="calendar">CALENDAR</string>
     <string name="empty" />
