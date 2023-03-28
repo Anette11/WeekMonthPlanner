@@ -5,10 +5,12 @@
     android:layout_height="match_parent">
 
     <TextView
-        style="@style/Tiny_Lato_Black_16sp_White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_black"
         android:text="@string/fragment_1_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
