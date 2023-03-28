@@ -1,5 +1,7 @@
 package com.example.weekmonthplanner.screen_items;
 
+import android.graphics.drawable.Drawable;
+
 import androidx.annotation.DrawableRes;
 
 public class ItemGreeting implements ScreenItem {
