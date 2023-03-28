@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/calendarFragment"
+        android:icon="@drawable/ic_calendar"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/unknown1Fragment"
+        android:icon="@drawable/ic_rectangle"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/unknown2Fragment"
+        android:icon="@drawable/ic_rectangle"
+        tools:ignore="MenuTitle" />
+</menu>
