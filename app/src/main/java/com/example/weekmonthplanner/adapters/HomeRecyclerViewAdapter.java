@@ -94,6 +94,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         public void bind(ItemGreeting screenItem) {
             binding.textViewGreeting.setText(screenItem.getGreeting());
             binding.textViewFullName.setText(screenItem.getFullName());
+            binding.imageView.setImageResource(screenItem.getImage());
         }
     }
 
