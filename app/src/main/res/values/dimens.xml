@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="_0dp">0dp</dimen>
+    <dimen name="_2dp">2dp</dimen>
     <dimen name="_8dp">8dp</dimen>
     <dimen name="_10dp">10dp</dimen>
     <dimen name="_12dp">12dp</dimen>
@@ -8,7 +9,9 @@
     <dimen name="_24dp">24dp</dimen>
     <dimen name="_30dp">30dp</dimen>
     <dimen name="_60dp">60dp</dimen>
+    <dimen name="_65dp">65dp</dimen>
     <dimen name="_67dp">67dp</dimen>
+    <dimen name="_87dp">87dp</dimen>
     <dimen name="_270dp">270dp</dimen>
 
     <dimen name="_12sp">12sp</dimen>
