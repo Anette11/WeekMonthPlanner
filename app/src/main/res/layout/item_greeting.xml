@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/_10dp"
+    android:paddingVertical="@dimen/_20dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="@dimen/_60dp"
+        android:layout_height="@dimen/_60dp"
+        app:cardCornerRadius="@dimen/_60dp"
+        app:cardElevation="@dimen/_0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="@dimen/_60dp"
+            android:layout_height="@dimen/_60dp"
+            android:contentDescription="@string/empty"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/abb70d9a47429527d540bd9a3d7aae8f" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_view_greeting"
+        style="@style/Tiny_Inter_Black_16sp_Gray_dark"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10dp"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_full_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/card_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/greeting" />
+
+    <TextView
+        android:id="@+id/text_view_full_name"
+        style="@style/Tiny_Lato_Black_16sp_White"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10dp"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/card_view"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_greeting"
+        tools:text="@string/full_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

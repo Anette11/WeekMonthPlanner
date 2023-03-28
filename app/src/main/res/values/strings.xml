@@ -2,5 +2,7 @@
     <string name="app_name">WeekMonthPlanner</string>
     <string name="fragment_1_name">Unknown 1 fragment</string>
     <string name="fragment_2_name">Unknown 2 fragment</string>
+    <string name="greeting">HI,</string>
+    <string name="full_name">STEPAN STEPANOV</string>
     <string name="empty" />
 </resources>
