@@ -9,5 +9,6 @@
     <string name="exercise_1_completed">Exercise1 completed</string>
     <string name="example_date">Friday, September 17</string>
     <string name="example_exercise">Exercise3</string>
+    <string name="calendar">CALENDAR</string>
     <string name="empty" />
 </resources>
