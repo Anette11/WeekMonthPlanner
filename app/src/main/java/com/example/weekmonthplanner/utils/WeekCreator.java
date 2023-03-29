@@ -1,5 +1,9 @@
 package com.example.weekmonthplanner.utils;
 
+import android.text.format.DateUtils;
+
+import com.example.weekmonthplanner.R;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,25 +17,25 @@ public class WeekCreator {
         Calendar calendar = Calendar.getInstance();
         int week = calendar.get(Calendar.DAY_OF_WEEK);
         switch (week) {
-            case 2:
+            case Calendar.MONDAY:
                 list = createList(0);
                 break;
-            case 3:
+            case Calendar.TUESDAY:
                 list = createList(-1);
                 break;
-            case 4:
+            case Calendar.WEDNESDAY:
                 list = createList(-2);
                 break;
-            case 5:
+            case Calendar.THURSDAY:
                 list = createList(-3);
                 break;
-            case 6:
+            case Calendar.FRIDAY:
                 list = createList(4);
                 break;
-            case 7:
+            case Calendar.SATURDAY:
                 list = createList(-5);
                 break;
-            case 1:
+            case Calendar.SUNDAY:
                 list = createList(-6);
                 break;
             default:
@@ -48,9 +52,19 @@ public class WeekCreator {
         calendar.add(Calendar.DATE, startIndex);
         for (int i = startIndex; i <= (startIndex + 6); i++) {
             if (i != startIndex) calendar.add(Calendar.DATE, 1);
+            int colorInt = R.color.black_medium;
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ||
+                    calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY ||
+                    calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                colorInt = R.color.black_darker;
+            }
+            if (DateUtils.isToday(calendar.getTime().getTime())) {
+                colorInt = R.color.green_light;
+            }
             list.add(new DateItem(
                     String.valueOf(calendar.get(Calendar.DATE)),
-                    simpleDateFormat.format(calendar.getTime().getTime()).toUpperCase()));
+                    simpleDateFormat.format(calendar.getTime().getTime()).toUpperCase(),
+                    colorInt));
         }
         return list;
     }

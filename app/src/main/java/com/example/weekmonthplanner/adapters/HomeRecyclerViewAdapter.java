@@ -4,8 +4,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weekmonthplanner.databinding.ItemDateBinding;
 import com.example.weekmonthplanner.databinding.ItemGreetingBinding;
 import com.example.weekmonthplanner.databinding.ItemMainBlockMenuBinding;
 import com.example.weekmonthplanner.databinding.ItemWeekBinding;
@@ -119,20 +121,24 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         public void bind(ItemWeek screenItem) {
             List<DateItem> dateItems = screenItem.getList();
             if (dateItems.size() != 7) return;
-            binding.dateMonday.textViewDayOfMonth.setText(dateItems.get(0).getDayOfMonth());
-            binding.dateMonday.textViewDayOfWeek.setText(dateItems.get(0).getDayOfWeek());
-            binding.dateTuesday.textViewDayOfMonth.setText(dateItems.get(1).getDayOfMonth());
-            binding.dateTuesday.textViewDayOfWeek.setText(dateItems.get(1).getDayOfWeek());
-            binding.dateWednesday.textViewDayOfMonth.setText(dateItems.get(2).getDayOfMonth());
-            binding.dateWednesday.textViewDayOfWeek.setText(dateItems.get(2).getDayOfWeek());
-            binding.dateThursday.textViewDayOfMonth.setText(dateItems.get(3).getDayOfMonth());
-            binding.dateThursday.textViewDayOfWeek.setText(dateItems.get(3).getDayOfWeek());
-            binding.dateFriday.textViewDayOfMonth.setText(dateItems.get(4).getDayOfMonth());
-            binding.dateFriday.textViewDayOfWeek.setText(dateItems.get(4).getDayOfWeek());
-            binding.dateSaturday.textViewDayOfMonth.setText(dateItems.get(5).getDayOfMonth());
-            binding.dateSaturday.textViewDayOfWeek.setText(dateItems.get(5).getDayOfWeek());
-            binding.dateSunday.textViewDayOfMonth.setText(dateItems.get(6).getDayOfMonth());
-            binding.dateSunday.textViewDayOfWeek.setText(dateItems.get(6).getDayOfWeek());
+            fillDateItem(binding.dateMonday, dateItems.get(0));
+            fillDateItem(binding.dateTuesday, dateItems.get(1));
+            fillDateItem(binding.dateWednesday, dateItems.get(2));
+            fillDateItem(binding.dateThursday, dateItems.get(3));
+            fillDateItem(binding.dateFriday, dateItems.get(4));
+            fillDateItem(binding.dateSaturday, dateItems.get(5));
+            fillDateItem(binding.dateSunday, dateItems.get(6));
+        }
+
+        private void fillDateItem(
+                ItemDateBinding binding,
+                DateItem dateItem
+        ) {
+            binding.textViewDayOfMonth.setText(dateItem.getDayOfMonth());
+            binding.textViewDayOfWeek.setText(dateItem.getDayOfWeek());
+            binding.cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(binding.getRoot().getContext(),
+                            dateItem.getColorInt()));
         }
     }
 
