@@ -56,13 +56,6 @@ public class HomeFragment extends Fragment {
         List<ScreenItem> list = new ArrayList<>();
         list.add(new ItemGreeting(getString(R.string.greeting), getString(R.string.full_name), R.drawable.abb70d9a47429527d540bd9a3d7aae8f));
         List<DateItem> dateItems = new WeekCreator().createDateItems();
-//        dateItems.add(new DateItem("13", "MON"));
-//        dateItems.add(new DateItem("14", "TUE"));
-//        dateItems.add(new DateItem("15", "WED"));
-//        dateItems.add(new DateItem("16", "THU"));
-//        dateItems.add(new DateItem("17", "FRI"));
-//        dateItems.add(new DateItem("18", "SAT"));
-//        dateItems.add(new DateItem("19", "SUN"));
         list.add(new ItemWeek(dateItems));
         list.add(new ItemMainBlockMenu("Exercise1 completed"));
         HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(list);
