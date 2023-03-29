@@ -188,6 +188,9 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         public void bind(ItemExercise screenItem) {
             binding.textViewDate.setText(screenItem.getDate());
             binding.textViewExerciseNumber.setText(screenItem.getExerciseNumber());
+            binding.cardViewExercise.setStrokeColor(
+                    ContextCompat.getColor(binding.getRoot().getContext(),
+                            screenItem.getColorInt()));
         }
     }
 

@@ -51,14 +51,17 @@ public class CalendarViewModel extends ViewModel {
         list.add(new ItemTextSmall(resourcesProvider.getString(R.string.today)));
         list.add(new ItemExercise(
                 resourcesProvider.getString(R.string.example_date),
-                resourcesProvider.getString(R.string.exercise_1)));
+                resourcesProvider.getString(R.string.exercise_1),
+                R.color.green_light));
         list.add(new ItemTextSmall(resourcesProvider.getString(R.string.on_the_week)));
         list.add(new ItemExercise(
                 resourcesProvider.getString(R.string.example_date),
-                resourcesProvider.getString(R.string.exercise_1)));
+                resourcesProvider.getString(R.string.exercise_1),
+                R.color.black_medium));
         list.add(new ItemExercise(
                 resourcesProvider.getString(R.string.example_date),
-                resourcesProvider.getString(R.string.exercise_1)));
+                resourcesProvider.getString(R.string.exercise_1),
+                R.color.black_medium));
         _screenItems.setValue(list);
     }
 }

@@ -25,7 +25,6 @@ import javax.inject.Inject;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
     @Inject
     public HomeRecyclerViewAdapter() {
     }
@@ -63,7 +62,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else if (viewType == RecyclerViewItem.ITEM_MAIN_BLOCK_MENU.value) {
             ItemMainBlockMenuBinding itemMainBlockMenuBinding = ItemMainBlockMenuBinding
                     .inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new ViewHolderItemMainBlockMenu(itemMainBlockMenuBinding, onExerciseCompleteClick);
+            return new ViewHolderItemMainBlockMenu(itemMainBlockMenuBinding);
         }
         throw new RuntimeException("Can't get viewHolder");
     }
@@ -157,8 +156,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         private final ItemMainBlockMenuBinding binding;
 
         public ViewHolderItemMainBlockMenu(
-                ItemMainBlockMenuBinding binding,
-                final OnExerciseCompleteClick onExerciseCompleteClick
+                ItemMainBlockMenuBinding binding
         ) {
             super(binding.getRoot());
             this.binding = binding;
