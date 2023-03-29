@@ -5,6 +5,7 @@
     <string name="greeting">HI,</string>
     <string name="full_name">STEPAN STEPANOV</string>
     <string name="today">TODAY</string>
+    <string name="done">DONE</string>
     <string name="on_the_week">ON THE WEEK</string>
     <string name="completed">COMPLETED</string>
     <string name="next_week">NEXT WEEK</string>
