@@ -16,6 +16,7 @@ import com.example.weekmonthplanner.screen_items.ItemMainBlockMenu;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
 import com.example.weekmonthplanner.screen_items.ScreenItem;
 import com.example.weekmonthplanner.utils.DateItem;
+import com.example.weekmonthplanner.utils.OnExerciseCompleteClick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,17 @@ import javax.inject.Inject;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+
     @Inject
     public HomeRecyclerViewAdapter() {
+    }
+
+    private OnExerciseCompleteClick onExerciseCompleteClick;
+
+    public void setOnExerciseCompleteClick(
+            OnExerciseCompleteClick onExerciseCompleteClick
+    ) {
+        this.onExerciseCompleteClick = onExerciseCompleteClick;
     }
 
     private final List<ScreenItem> list = new ArrayList<>();
@@ -53,7 +63,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else if (viewType == RecyclerViewItem.ITEM_MAIN_BLOCK_MENU.value) {
             ItemMainBlockMenuBinding itemMainBlockMenuBinding = ItemMainBlockMenuBinding
                     .inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new ViewHolderItemMainBlockMenu(itemMainBlockMenuBinding);
+            return new ViewHolderItemMainBlockMenu(itemMainBlockMenuBinding, onExerciseCompleteClick);
         }
         throw new RuntimeException("Can't get viewHolder");
     }
@@ -142,17 +152,28 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    private static class ViewHolderItemMainBlockMenu extends RecyclerView.ViewHolder {
+    private class ViewHolderItemMainBlockMenu extends RecyclerView.ViewHolder {
 
         private final ItemMainBlockMenuBinding binding;
 
-        public ViewHolderItemMainBlockMenu(ItemMainBlockMenuBinding binding) {
+        public ViewHolderItemMainBlockMenu(
+                ItemMainBlockMenuBinding binding,
+                final OnExerciseCompleteClick onExerciseCompleteClick
+        ) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(ItemMainBlockMenu screenItem) {
             binding.textViewButtonExerciseCompleted.setText(screenItem.getButtonText());
+            binding.cardViewExerciseCompleted.setOnClickListener(v -> {
+                if (onExerciseCompleteClick != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onExerciseCompleteClick.onClick(screenItem);
+                    }
+                }
+            });
         }
     }
 }
