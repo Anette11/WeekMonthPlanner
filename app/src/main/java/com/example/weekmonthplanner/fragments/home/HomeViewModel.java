@@ -49,10 +49,13 @@ public class HomeViewModel extends ViewModel {
                         R.drawable.abb70d9a47429527d540bd9a3d7aae8f));
         List<DateItem> dateItems = weekCreator.createDateItems();
         list.add(new ItemWeek(dateItems));
-        list.add(
-                new ItemMainBlockMenu(
-                        String.format(resourcesProvider.getString(R.string.exercise_completed),
-                                weekCreator.getExerciseIndex())));
+        int exerciseIndex = weekCreator.getExerciseIndex();
+        if (exerciseIndex > 0) {
+            list.add(
+                    new ItemMainBlockMenu(
+                            String.format(resourcesProvider.getString(R.string.exercise_completed),
+                                    exerciseIndex)));
+        }
         _screenItems.setValue(list);
     }
 }
