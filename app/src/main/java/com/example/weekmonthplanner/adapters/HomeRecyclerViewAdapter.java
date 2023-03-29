@@ -9,20 +9,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weekmonthplanner.databinding.ItemGreetingBinding;
 import com.example.weekmonthplanner.databinding.ItemMainBlockMenuBinding;
 import com.example.weekmonthplanner.databinding.ItemWeekBinding;
-import com.example.weekmonthplanner.utils.DateItem;
 import com.example.weekmonthplanner.screen_items.ItemGreeting;
 import com.example.weekmonthplanner.screen_items.ItemMainBlockMenu;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
 import com.example.weekmonthplanner.screen_items.ScreenItem;
+import com.example.weekmonthplanner.utils.DateItem;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<ScreenItem> list;
+    @Inject
+    public HomeRecyclerViewAdapter() {
+    }
 
-    public HomeRecyclerViewAdapter(List<ScreenItem> list) {
-        this.list = list;
+    private final List<ScreenItem> list = new ArrayList<>();
+
+    public void updateList(List<ScreenItem> newList) {
+        list.clear();
+        list.addAll(newList);
+        notifyDataSetChanged();
     }
 
     @NonNull
