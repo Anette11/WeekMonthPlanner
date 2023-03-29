@@ -5,8 +5,12 @@
     <string name="greeting">HI,</string>
     <string name="full_name">STEPAN STEPANOV</string>
     <string name="today">TODAY</string>
+    <string name="on_the_week">ON THE WEEK</string>
+    <string name="completed">COMPLETED</string>
+    <string name="next_week">NEXT WEEK</string>
     <string name="main_block_menu">MainBlockMenu</string>
     <string name="exercise_1_completed">Exercise1 completed</string>
+    <string name="exercise_1">Exercise1</string>
     <string name="exercise_completed">Exercise%1s completed</string>
     <string name="example_date">Friday, September 17</string>
     <string name="example_day_of_month">15</string>

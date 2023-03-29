@@ -48,11 +48,17 @@ public class CalendarViewModel extends ViewModel {
         List<DateItem> dateItems = weekCreator.createDateItems();
         list.add(new ItemWeek(dateItems));
         list.add(new ItemDivider());
-        list.add(new ItemTextSmall("TODAY"));
-        list.add(new ItemExercise("Monday, September 13", "Exercise1"));
-        list.add(new ItemTextSmall("ON THE WEEK"));
-        list.add(new ItemExercise("Monday, September 13", "Exercise1"));
-        list.add(new ItemExercise("Monday, September 13", "Exercise1"));
+        list.add(new ItemTextSmall(resourcesProvider.getString(R.string.today)));
+        list.add(new ItemExercise(
+                resourcesProvider.getString(R.string.example_date),
+                resourcesProvider.getString(R.string.exercise_1)));
+        list.add(new ItemTextSmall(resourcesProvider.getString(R.string.on_the_week)));
+        list.add(new ItemExercise(
+                resourcesProvider.getString(R.string.example_date),
+                resourcesProvider.getString(R.string.exercise_1)));
+        list.add(new ItemExercise(
+                resourcesProvider.getString(R.string.example_date),
+                resourcesProvider.getString(R.string.exercise_1)));
         _screenItems.setValue(list);
     }
 }
