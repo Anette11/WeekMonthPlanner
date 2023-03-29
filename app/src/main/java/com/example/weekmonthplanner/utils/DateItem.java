@@ -1,9 +1,9 @@
-package com.example.weekmonthplanner.screen_items;
+package com.example.weekmonthplanner.utils;
 
 public class DateItem {
 
-    private String dayOfMonth;
-    private String dayOfWeek;
+    private final String dayOfMonth;
+    private final String dayOfWeek;
 
     public DateItem(String dayOfMonth, String dayOfWeek) {
         this.dayOfMonth = dayOfMonth;
@@ -14,15 +14,7 @@ public class DateItem {
         return dayOfMonth;
     }
 
-    public void setDayOfMonth(String dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
-    }
-
     public String getDayOfWeek() {
         return dayOfWeek;
-    }
-
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
     }
 }

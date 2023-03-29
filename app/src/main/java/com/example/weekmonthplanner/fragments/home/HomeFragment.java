@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.adapters.HomeRecyclerViewAdapter;
 import com.example.weekmonthplanner.databinding.HomeFragmentBinding;
-import com.example.weekmonthplanner.screen_items.DateItem;
+import com.example.weekmonthplanner.utils.DateItem;
 import com.example.weekmonthplanner.screen_items.ItemGreeting;
 import com.example.weekmonthplanner.screen_items.ItemMainBlockMenu;
 import com.example.weekmonthplanner.screen_items.ItemWeek;

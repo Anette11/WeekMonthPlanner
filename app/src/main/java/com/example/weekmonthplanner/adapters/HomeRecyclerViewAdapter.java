@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weekmonthplanner.databinding.ItemGreetingBinding;
 import com.example.weekmonthplanner.databinding.ItemMainBlockMenuBinding;
 import com.example.weekmonthplanner.databinding.ItemWeekBinding;
-import com.example.weekmonthplanner.screen_items.DateItem;
+import com.example.weekmonthplanner.utils.DateItem;
 import com.example.weekmonthplanner.screen_items.ItemGreeting;
 import com.example.weekmonthplanner.screen_items.ItemMainBlockMenu;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
