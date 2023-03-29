@@ -68,4 +68,13 @@ public class WeekCreator {
         }
         return list;
     }
+
+    public int getExerciseIndex() {
+        Calendar calendar = Calendar.getInstance();
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        if (week == Calendar.MONDAY) return 1;
+        if (week == Calendar.WEDNESDAY) return 2;
+        if (week == Calendar.FRIDAY) return 3;
+        return -1;
+    }
 }
