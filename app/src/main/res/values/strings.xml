@@ -1,22 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="app_name">WeekMonthPlanner</string>
-    <string name="fragment_1_name">Unknown 1 fragment</string>
-    <string name="fragment_2_name">Unknown 2 fragment</string>
-    <string name="greeting">HI,</string>
-    <string name="full_name">STEPAN STEPANOV</string>
-    <string name="today">TODAY</string>
-    <string name="done">DONE</string>
-    <string name="on_the_week">ON THE WEEK</string>
+    <string name="calendar">CALENDAR</string>
     <string name="completed">COMPLETED</string>
-    <string name="next_week">NEXT WEEK</string>
-    <string name="main_block_menu">MainBlockMenu</string>
-    <string name="exercise_1_completed">Exercise1 completed</string>
-    <string name="exercise_1">Exercise1</string>
-    <string name="exercise_completed">%1s completed</string>
+    <string name="empty" />
     <string name="example_date">Friday, September 17</string>
     <string name="example_day_of_month">15</string>
     <string name="example_day_of_week">WED</string>
     <string name="example_exercise">Exercise3</string>
-    <string name="calendar">CALENDAR</string>
-    <string name="empty" />
+    <string name="exercise_1_completed">Exercise1 completed</string>
+    <string name="exercise_completed">%1s completed</string>
+    <string name="fragment_1_name">Unknown 1 fragment</string>
+    <string name="fragment_2_name">Unknown 2 fragment</string>
+    <string name="full_name">STEPAN STEPANOV</string>
+    <string name="greeting">HI,</string>
+    <string name="main_block_menu">MainBlockMenu</string>
+    <string name="next_week">NEXT WEEK</string>
+    <string name="on_the_week">ON THE WEEK</string>
+    <string name="today">TODAY</string>
 </resources>
