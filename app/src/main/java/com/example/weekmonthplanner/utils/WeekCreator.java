@@ -7,7 +7,6 @@ import com.example.weekmonthplanner.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,7 +30,7 @@ public class WeekCreator {
                 list = createList(-3);
                 break;
             case Calendar.FRIDAY:
-                list = createList(4);
+                list = createList(-4);
                 break;
             case Calendar.SATURDAY:
                 list = createList(-5);
@@ -74,9 +73,42 @@ public class WeekCreator {
         return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     }
 
-    public String createDateString() {
+    public String createDateString(
+            int exerciseIndex,
+            boolean forNextWeek
+    ) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
-        return simpleDateFormat.format(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.SUNDAY);
+        if (forNextWeek) calendar.add(Calendar.DATE, 7);
+        String dateString;
+        switch (exerciseIndex) {
+            case Calendar.MONDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                break;
+            case Calendar.TUESDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                break;
+            case Calendar.WEDNESDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                break;
+            case Calendar.THURSDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                break;
+            case Calendar.FRIDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                break;
+            case Calendar.SATURDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                break;
+            case Calendar.SUNDAY:
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                break;
+            default:
+                break;
+        }
+        dateString = simpleDateFormat.format(calendar.getTime());
+        return dateString;
     }
 
     public boolean isExerciseToday(int exerciseIndex) {

@@ -101,25 +101,25 @@ public class CalendarViewModel extends ViewModel {
             }
             if (weekCreator.isExerciseToday(exercises.get(i).id) && !exercises.get(i).isCompleted) {
                 exercisesToday.add(new ItemExercise(
-                        weekCreator.createDateString(),
+                        weekCreator.createDateString(exercises.get(i).id, false),
                         exercises.get(i).name,
                         colorInt));
             }
             if (weekCreator.isExerciseToday(exercises.get(i).id) && exercises.get(i).isCompleted) {
                 exercisesCompleted.add(new ItemExercise(
-                        weekCreator.createDateString(),
+                        weekCreator.createDateString(exercises.get(i).id, false),
                         exercises.get(i).name,
                         colorInt));
             }
             if (weekCreator.isExerciseInPast(exercises.get(i).id)) {
                 exercisesCompleted.add(new ItemExercise(
-                        weekCreator.createDateString(),
+                        weekCreator.createDateString(exercises.get(i).id, false),
                         exercises.get(i).name,
                         colorInt));
             }
             if (weekCreator.isExerciseInFuture(exercises.get(i).id)) {
                 exercisesOnTheWeek.add(new ItemExercise(
-                        weekCreator.createDateString(),
+                        weekCreator.createDateString(exercises.get(i).id, false),
                         exercises.get(i).name,
                         colorInt));
             }
@@ -128,7 +128,7 @@ public class CalendarViewModel extends ViewModel {
         if (areAllExercisesCompleted) {
             for (int i = 0; i < exercises.size(); i++) {
                 exercisesNextWeek.add(new ItemExercise(
-                        weekCreator.createDateString(),
+                        weekCreator.createDateString(exercises.get(i).id, true),
                         exercises.get(i).name,
                         R.color.black_medium));
             }
