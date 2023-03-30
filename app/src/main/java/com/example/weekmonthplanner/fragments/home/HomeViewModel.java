@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.data.Exercise;
-import com.example.weekmonthplanner.data.ExerciseDao;
+import com.example.weekmonthplanner.repositories.HomeRepository;
 import com.example.weekmonthplanner.screen_items.ItemGreeting;
 import com.example.weekmonthplanner.screen_items.ItemMainBlockMenu;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
@@ -31,17 +31,17 @@ public class HomeViewModel extends ViewModel {
     private final WeekCreator weekCreator;
 
     private final ResourcesProvider resourcesProvider;
-    private final ExerciseDao exerciseDao;
+    private final HomeRepository homeRepository;
 
     @Inject
     public HomeViewModel(
             WeekCreator weekCreator,
             ResourcesProvider resourcesProvider,
-            ExerciseDao exerciseDao
+            HomeRepository homeRepository
     ) {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
-        this.exerciseDao = exerciseDao;
+        this.homeRepository = homeRepository;
         createScreenItems();
     }
 
@@ -51,7 +51,7 @@ public class HomeViewModel extends ViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private void createScreenItems() {
-        Disposable disposable = exerciseDao.getAll()
+        Disposable disposable = homeRepository.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         exercises -> {
