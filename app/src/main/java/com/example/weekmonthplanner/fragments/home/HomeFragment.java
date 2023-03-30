@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,9 +49,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         HomeViewModel homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
-        homeRecyclerViewAdapter.setOnExerciseCompleteClick(screenItem ->
-                Toast.makeText(requireActivity(), screenItem.getButtonText(), Toast.LENGTH_SHORT).show()
-        );
+        homeRecyclerViewAdapter.setOnExerciseCompleteClick(homeViewModel::setOnExerciseCompleteClick);
 
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());

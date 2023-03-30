@@ -68,18 +68,32 @@ public class HomeViewModel extends ViewModel {
                                 Exercise exerciseFound = null;
                                 for (int i = 0; i < exercises.size(); i++) {
                                     Exercise exercise = exercises.get(i);
-                                    if (exerciseIndex == exercise.id) {
+                                    if (exerciseIndex == exercise.id && !exercise.isCompleted) {
                                         exerciseFound = exercise;
                                     }
                                 }
                                 if (exerciseFound != null) {
                                     list.add(
                                             new ItemMainBlockMenu(
-                                                    String.format(resourcesProvider.getString(R.string.exercise_completed),
-                                                            exerciseFound.name)));
+                                                    String.format(resourcesProvider.getString(R.string.exercise_completed), exerciseFound.name),
+                                                    exerciseFound));
                                 }
                                 _screenItems.postValue(list);
                             }
+                        },
+                        throwable -> {
+                        }
+                );
+        compositeDisposable.add(disposable);
+    }
+
+    public void setOnExerciseCompleteClick(ItemMainBlockMenu screenItem) {
+        List<Exercise> exercises = new ArrayList<>();
+        exercises.add(new Exercise(screenItem.getExercise().id, true, screenItem.getExercise().name));
+        Disposable disposable = homeRepository.saveAll(exercises)
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        () -> {
                         },
                         throwable -> {
                         }
