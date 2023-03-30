@@ -6,6 +6,8 @@ import com.example.weekmonthplanner.utils.ResourcesProvider;
 import com.example.weekmonthplanner.utils.ResourcesProviderImpl;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -17,11 +19,15 @@ import dagger.hilt.components.SingletonComponent;
 public class UtilsModule {
 
     @Provides
-    ResourcesProvider provideResourcesProvider(@ApplicationContext Context context) {
+    @Singleton
+    ResourcesProvider provideResourcesProvider(
+            @ApplicationContext Context context
+    ) {
         return new ResourcesProviderImpl(context);
     }
 
     @Provides
+    @Singleton
     WeekCreator provideWeekCreator() {
         return new WeekCreator();
     }

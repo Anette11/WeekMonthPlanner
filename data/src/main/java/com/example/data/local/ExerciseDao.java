@@ -1,4 +1,4 @@
-package com.example.weekmonthplanner.data;
+package com.example.data.local;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -14,8 +14,8 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface ExerciseDao {
 
     @Query("SELECT * FROM exercise_table")
-    Flowable<List<Exercise>> getAll();
+    Flowable<List<ExerciseDbo>> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable saveAll(List<Exercise> list);
+    Completable saveAll(List<ExerciseDbo> list);
 }

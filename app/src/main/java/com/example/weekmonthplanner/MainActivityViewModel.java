@@ -2,8 +2,9 @@ package com.example.weekmonthplanner;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.weekmonthplanner.data.Exercise;
-import com.example.weekmonthplanner.repositories.MainRepository;
+import com.example.domain.local.Exercise;
+import com.example.domain.use_cases.GetAllExercisesUseCase;
+import com.example.domain.use_cases.SaveAllExercisesUseCase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,12 +21,17 @@ import timber.log.Timber;
 @HiltViewModel
 public class MainActivityViewModel extends ViewModel {
 
-    private final MainRepository mainRepository;
+    private final GetAllExercisesUseCase getAllExercisesUseCase;
+    private final SaveAllExercisesUseCase saveAllExercisesUseCase;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public MainActivityViewModel(MainRepository mainRepository) {
-        this.mainRepository = mainRepository;
+    public MainActivityViewModel(
+            GetAllExercisesUseCase getAllExercisesUseCase,
+            SaveAllExercisesUseCase saveAllExercisesUseCase
+    ) {
+        this.getAllExercisesUseCase = getAllExercisesUseCase;
+        this.saveAllExercisesUseCase = saveAllExercisesUseCase;
         getExercises();
     }
 
@@ -34,12 +40,12 @@ public class MainActivityViewModel extends ViewModel {
         list.add(new Exercise(Calendar.MONDAY, false, "Exercise1"));
         list.add(new Exercise(Calendar.WEDNESDAY, false, "Exercise2"));
         list.add(new Exercise(Calendar.FRIDAY, false, "Exercise3"));
-        Disposable disposableGetAll = mainRepository.getAll()
+        Disposable disposableGetAll = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         exercises -> {
                             if (exercises.isEmpty()) {
-                                Disposable disposableSaveAll = mainRepository.saveAll(list)
+                                Disposable disposableSaveAll = saveAllExercisesUseCase.saveAll(list)
                                         .subscribe();
                                 compositeDisposable.add(disposableSaveAll);
                             }

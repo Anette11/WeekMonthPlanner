@@ -1,10 +1,10 @@
-package com.example.weekmonthplanner.data;
+package com.example.data.local;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exercise_table")
-public class Exercise {
+public class ExerciseDbo {
 
     @PrimaryKey
     public int id;
@@ -12,7 +12,7 @@ public class Exercise {
     public boolean isCompleted;
     public String name;
 
-    public Exercise(
+    public ExerciseDbo(
             int id,
             boolean isCompleted,
             String name

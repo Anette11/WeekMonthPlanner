@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.domain.local.Exercise;
+import com.example.domain.use_cases.GetAllExercisesUseCase;
+import com.example.domain.use_cases.SaveAllExercisesUseCase;
 import com.example.weekmonthplanner.R;
-import com.example.weekmonthplanner.data.Exercise;
-import com.example.weekmonthplanner.repositories.HomeRepository;
 import com.example.weekmonthplanner.screen_items.ItemGreeting;
 import com.example.weekmonthplanner.screen_items.ItemMainBlockMenu;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
@@ -30,19 +31,21 @@ import timber.log.Timber;
 public class HomeViewModel extends ViewModel {
 
     private final WeekCreator weekCreator;
-
     private final ResourcesProvider resourcesProvider;
-    private final HomeRepository homeRepository;
+    private final GetAllExercisesUseCase getAllExercisesUseCase;
+    private final SaveAllExercisesUseCase saveAllExercisesUseCase;
 
     @Inject
     public HomeViewModel(
             WeekCreator weekCreator,
             ResourcesProvider resourcesProvider,
-            HomeRepository homeRepository
+            GetAllExercisesUseCase getAllExercisesUseCase,
+            SaveAllExercisesUseCase saveAllExercisesUseCase
     ) {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
-        this.homeRepository = homeRepository;
+        this.getAllExercisesUseCase = getAllExercisesUseCase;
+        this.saveAllExercisesUseCase = saveAllExercisesUseCase;
         createScreenItems();
     }
 
@@ -52,7 +55,7 @@ public class HomeViewModel extends ViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private void createScreenItems() {
-        Disposable disposable = homeRepository.getAll()
+        Disposable disposable = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         exercises -> {
@@ -92,7 +95,7 @@ public class HomeViewModel extends ViewModel {
     public void setOnExerciseCompleteClick(ItemMainBlockMenu screenItem) {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise(screenItem.getExercise().id, true, screenItem.getExercise().name));
-        Disposable disposable = homeRepository.saveAll(exercises)
+        Disposable disposable = saveAllExercisesUseCase.saveAll(exercises)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         () -> {

@@ -1,11 +1,11 @@
-package com.example.weekmonthplanner.di;
+package com.example.data.di;
 
 import android.content.Context;
 
 import androidx.room.Room;
 
-import com.example.weekmonthplanner.data.AppDatabase;
-import com.example.weekmonthplanner.data.ExerciseDao;
+import com.example.data.local.AppDatabase;
+import com.example.data.local.ExerciseDao;
 
 import javax.inject.Singleton;
 

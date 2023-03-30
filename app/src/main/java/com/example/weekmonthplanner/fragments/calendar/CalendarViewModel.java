@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.domain.local.Exercise;
+import com.example.domain.use_cases.GetAllExercisesUseCase;
 import com.example.weekmonthplanner.R;
-import com.example.weekmonthplanner.data.Exercise;
-import com.example.weekmonthplanner.repositories.CalendarRepository;
 import com.example.weekmonthplanner.screen_items.ItemDivider;
 import com.example.weekmonthplanner.screen_items.ItemExercise;
 import com.example.weekmonthplanner.screen_items.ItemTextLarge;
@@ -34,20 +34,18 @@ import timber.log.Timber;
 public class CalendarViewModel extends ViewModel {
 
     private final WeekCreator weekCreator;
-
     private final ResourcesProvider resourcesProvider;
-
-    private final CalendarRepository calendarRepository;
+    private final GetAllExercisesUseCase getAllExercisesUseCase;
 
     @Inject
     public CalendarViewModel(
             WeekCreator weekCreator,
             ResourcesProvider resourcesProvider,
-            CalendarRepository calendarRepository
+            GetAllExercisesUseCase getAllExercisesUseCase
     ) {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
-        this.calendarRepository = calendarRepository;
+        this.getAllExercisesUseCase = getAllExercisesUseCase;
         createScreenItems();
     }
 
@@ -57,7 +55,7 @@ public class CalendarViewModel extends ViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private void createScreenItems() {
-        Disposable disposable = calendarRepository.getAll()
+        Disposable disposable = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         exercises -> {

@@ -1,6 +1,6 @@
 package com.example.weekmonthplanner.screen_items;
 
-import com.example.weekmonthplanner.data.Exercise;
+import com.example.domain.local.Exercise;
 
 public class ItemMainBlockMenu implements ScreenItem {
 

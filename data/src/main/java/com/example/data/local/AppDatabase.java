@@ -1,10 +1,10 @@
-package com.example.weekmonthplanner.data;
+package com.example.data.local;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 @Database(
-        entities = {Exercise.class},
+        entities = {ExerciseDbo.class},
         version = 1,
         exportSchema = false
 )
