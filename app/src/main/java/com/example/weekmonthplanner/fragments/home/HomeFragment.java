@@ -24,7 +24,9 @@ public class HomeFragment extends Fragment {
 
     @Inject
     HomeRecyclerViewAdapter homeRecyclerViewAdapter;
+
     private HomeFragmentBinding binding;
+    private HomeViewModel homeViewModel;
 
     public HomeFragment() {
         super(R.layout.home_fragment);
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
             @Nullable Bundle savedInstanceState
     ) {
         super.onViewCreated(view, savedInstanceState);
-        HomeViewModel homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         homeRecyclerViewAdapter.setOnExerciseCompleteClick(homeViewModel::setOnExerciseCompleteClick);
 
@@ -61,6 +63,12 @@ public class HomeFragment extends Fragment {
                 homeRecyclerViewAdapter.updateList(screenItems);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        homeViewModel.createScreenItems();
     }
 
     @Override

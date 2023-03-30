@@ -46,7 +46,6 @@ public class CalendarViewModel extends ViewModel {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
         this.getAllExercisesUseCase = getAllExercisesUseCase;
-        createScreenItems();
     }
 
     private final MutableLiveData<List<ScreenItem>> _screenItems = new MutableLiveData<>();
@@ -54,7 +53,8 @@ public class CalendarViewModel extends ViewModel {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    private void createScreenItems() {
+    public void createScreenItems() {
+        compositeDisposable.clear();
         Disposable disposable = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(

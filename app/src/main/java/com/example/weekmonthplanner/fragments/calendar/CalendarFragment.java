@@ -24,7 +24,9 @@ public class CalendarFragment extends Fragment {
 
     @Inject
     CalendarRecyclerViewAdapter calendarRecyclerViewAdapter;
+
     private CalendarFragmentBinding binding;
+    private CalendarViewModel calendarViewModel;
 
     public CalendarFragment() {
         super(R.layout.calendar_fragment);
@@ -47,7 +49,7 @@ public class CalendarFragment extends Fragment {
             @Nullable Bundle savedInstanceState
     ) {
         super.onViewCreated(view, savedInstanceState);
-        CalendarViewModel calendarViewModel = new ViewModelProvider(requireActivity()).get(CalendarViewModel.class);
+        calendarViewModel = new ViewModelProvider(requireActivity()).get(CalendarViewModel.class);
 
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
@@ -59,6 +61,12 @@ public class CalendarFragment extends Fragment {
                 calendarRecyclerViewAdapter.updateList(screenItems);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        calendarViewModel.createScreenItems();
     }
 
     @Override
