@@ -64,7 +64,7 @@ public class HomeViewModel extends ViewModel {
                                                 R.drawable.abb70d9a47429527d540bd9a3d7aae8f));
                                 List<DateItem> dateItems = weekCreator.createDateItems();
                                 list.add(new ItemWeek(dateItems));
-                                int exerciseIndex = weekCreator.getExerciseIndex();
+                                int exerciseIndex = weekCreator.getCurrentDayOfWeekIndex();
                                 Exercise exerciseFound = null;
                                 for (int i = 0; i < exercises.size(); i++) {
                                     Exercise exercise = exercises.get(i);

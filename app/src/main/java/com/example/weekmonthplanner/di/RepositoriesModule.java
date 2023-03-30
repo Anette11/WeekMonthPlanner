@@ -1,6 +1,8 @@
 package com.example.weekmonthplanner.di;
 
 import com.example.weekmonthplanner.data.ExerciseDao;
+import com.example.weekmonthplanner.repositories.CalendarRepository;
+import com.example.weekmonthplanner.repositories.CalendarRepositoryImpl;
 import com.example.weekmonthplanner.repositories.HomeRepository;
 import com.example.weekmonthplanner.repositories.HomeRepositoryImpl;
 import com.example.weekmonthplanner.repositories.MainRepository;
@@ -27,5 +29,11 @@ public class RepositoriesModule {
     @Singleton
     HomeRepository provideHomeRepository(ExerciseDao exerciseDao) {
         return new HomeRepositoryImpl(exerciseDao);
+    }
+
+    @Provides
+    @Singleton
+    CalendarRepository provideCalendarRepository(ExerciseDao exerciseDao) {
+        return new CalendarRepositoryImpl(exerciseDao);
     }
 }

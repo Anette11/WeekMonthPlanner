@@ -7,6 +7,7 @@ import com.example.weekmonthplanner.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,12 +70,24 @@ public class WeekCreator {
         return list;
     }
 
-    public int getExerciseIndex() {
-        Calendar calendar = Calendar.getInstance();
-        int week = calendar.get(Calendar.DAY_OF_WEEK);
-        if (week == Calendar.MONDAY) return 1;
-        if (week == Calendar.WEDNESDAY) return 2;
-        if (week == Calendar.FRIDAY) return 3;
-        return -1;
+    public int getCurrentDayOfWeekIndex() {
+        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    }
+
+    public String createDateString() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
+        return simpleDateFormat.format(new Date());
+    }
+
+    public boolean isExerciseToday(int exerciseIndex) {
+        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == exerciseIndex;
+    }
+
+    public boolean isExerciseInFuture(int exerciseIndex) {
+        return exerciseIndex > Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    }
+
+    public boolean isExerciseInPast(int exerciseIndex) {
+        return exerciseIndex < Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     }
 }

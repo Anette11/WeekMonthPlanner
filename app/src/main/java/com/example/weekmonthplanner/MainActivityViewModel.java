@@ -6,6 +6,7 @@ import com.example.weekmonthplanner.data.Exercise;
 import com.example.weekmonthplanner.repositories.MainRepository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,9 +30,9 @@ public class MainActivityViewModel extends ViewModel {
 
     private void getExercises() {
         List<Exercise> list = new ArrayList<>();
-        list.add(new Exercise(1, false, "Exercise1 completed"));
-        list.add(new Exercise(2, false, "Exercise2 completed"));
-        list.add(new Exercise(3, false, "Exercise3 completed"));
+        list.add(new Exercise(Calendar.MONDAY, false, "Exercise1"));
+        list.add(new Exercise(Calendar.WEDNESDAY, false, "Exercise2"));
+        list.add(new Exercise(Calendar.FRIDAY, false, "Exercise3"));
         Disposable disposableGetAll = mainRepository.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
