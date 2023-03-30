@@ -1,6 +1,5 @@
 package com.example.weekmonthplanner.data;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,9 +15,6 @@ public interface ExerciseDao {
 
     @Query("SELECT * FROM exercise_table")
     Flowable<List<Exercise>> getAll();
-
-    @Query("SELECT * FROM exercise_table")
-    LiveData<List<Exercise>> getAllLiveData();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable saveAll(List<Exercise> list);
