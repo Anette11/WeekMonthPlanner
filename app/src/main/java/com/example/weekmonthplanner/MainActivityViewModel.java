@@ -15,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import timber.log.Timber;
 
 @HiltViewModel
 public class MainActivityViewModel extends ViewModel {
@@ -44,6 +45,7 @@ public class MainActivityViewModel extends ViewModel {
                             }
                         },
                         throwable -> {
+                            Timber.e(throwable.getLocalizedMessage());
                         }
                 );
         compositeDisposable.add(disposableGetAll);

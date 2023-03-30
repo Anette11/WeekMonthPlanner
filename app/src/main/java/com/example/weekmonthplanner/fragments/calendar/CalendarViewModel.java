@@ -28,6 +28,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import timber.log.Timber;
 
 @HiltViewModel
 public class CalendarViewModel extends ViewModel {
@@ -63,6 +64,7 @@ public class CalendarViewModel extends ViewModel {
                             if (!exercises.isEmpty()) _screenItems.postValue(fillScreen(exercises));
                         },
                         throwable -> {
+                            Timber.e(throwable.getLocalizedMessage());
                         }
                 );
         compositeDisposable.add(disposable);
