@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import timber.log.Timber;
-
 public class TimeChangedBroadcastReceiver extends BroadcastReceiver {
 
     private final TimeChangedListener timeChangedListener;
@@ -27,7 +25,6 @@ public class TimeChangedBroadcastReceiver extends BroadcastReceiver {
                 action.equals(Intent.ACTION_TIME_TICK) ||
                 action.equals(Intent.ACTION_TIMEZONE_CHANGED)
         ) {
-            Timber.e(action);
             timeChangedListener.onTimeChanged();
         }
     }
