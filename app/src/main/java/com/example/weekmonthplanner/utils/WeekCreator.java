@@ -148,8 +148,26 @@ public class WeekCreator {
                         modifiedAtUpdated));
             }
             return exercises;
+        } else {
+            List<Exercise> exercises = new ArrayList<>();
+            long modifiedAtUpdated = new Date().getTime();
+            for (int i = 0; i < list.size(); i++) {
+                Exercise exercise = list.get(i);
+                boolean isCompletedFromExercise = exercise.isCompleted;
+                boolean isCompletedFromUpdate = exercise.isCompleted;
+                if (isExerciseToday(exercise.id)) isCompletedFromUpdate = exercise.isCompleted;
+                if (isExerciseInPast(exercise.id)) isCompletedFromUpdate = true;
+                if (isExerciseInFuture(exercise.id)) isCompletedFromUpdate = false;
+                if (isCompletedFromExercise != isCompletedFromUpdate) {
+                    exercises.add(new Exercise(
+                            exercise.id,
+                            isCompletedFromUpdate,
+                            exercise.name,
+                            modifiedAtUpdated));
+                }
+            }
+            return exercises;
         }
-        return new ArrayList<>();
     }
 
     public Map<Integer, String> getExercisesPlan() {
