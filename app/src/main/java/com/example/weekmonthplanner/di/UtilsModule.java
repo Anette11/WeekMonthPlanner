@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.weekmonthplanner.utils.ResourcesProvider;
 import com.example.weekmonthplanner.utils.ResourcesProviderImpl;
+import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import javax.inject.Singleton;
@@ -30,5 +31,11 @@ public class UtilsModule {
     @Singleton
     WeekCreator provideWeekCreator() {
         return new WeekCreator();
+    }
+
+    @Provides
+    @Singleton
+    RxFragmentNotifier provideRxFragmentNotifier() {
+        return new RxFragmentNotifier();
     }
 }

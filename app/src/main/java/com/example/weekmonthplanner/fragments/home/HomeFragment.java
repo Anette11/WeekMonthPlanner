@@ -11,35 +11,28 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.weekmonthplanner.MainActivity;
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.adapters.HomeRecyclerViewAdapter;
 import com.example.weekmonthplanner.databinding.HomeFragmentBinding;
-import com.example.weekmonthplanner.utils.OnNotifyHomeFragment;
+import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeFragment extends Fragment implements OnNotifyHomeFragment {
+public class HomeFragment extends Fragment {
 
     @Inject
     HomeRecyclerViewAdapter homeRecyclerViewAdapter;
 
     private HomeFragmentBinding binding;
-    private HomeViewModel homeViewModel;
+
+    @Inject
+    RxFragmentNotifier rxFragmentNotifier;
 
     public HomeFragment() {
         super(R.layout.home_fragment);
-    }
-
-    @Override
-    public void onCreate(
-            @Nullable Bundle savedInstanceState
-    ) {
-        super.onCreate(savedInstanceState);
-        ((MainActivity) requireActivity()).setOnNotifyHomeFragment(this);
     }
 
     @Nullable
@@ -59,7 +52,7 @@ public class HomeFragment extends Fragment implements OnNotifyHomeFragment {
             @Nullable Bundle savedInstanceState
     ) {
         super.onViewCreated(view, savedInstanceState);
-        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         homeRecyclerViewAdapter.setOnExerciseCompleteClick(homeViewModel::setOnExerciseCompleteClick);
 
@@ -73,11 +66,6 @@ public class HomeFragment extends Fragment implements OnNotifyHomeFragment {
                 homeRecyclerViewAdapter.updateList(screenItems);
             }
         });
-    }
-
-    @Override
-    public void onNotify() {
-        homeViewModel.onNotify();
     }
 
     @Override

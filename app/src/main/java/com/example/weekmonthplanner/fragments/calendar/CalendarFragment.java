@@ -11,35 +11,24 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.weekmonthplanner.MainActivity;
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.adapters.CalendarRecyclerViewAdapter;
 import com.example.weekmonthplanner.databinding.CalendarFragmentBinding;
-import com.example.weekmonthplanner.utils.OnNotifyCalendarFragment;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class CalendarFragment extends Fragment implements OnNotifyCalendarFragment {
+public class CalendarFragment extends Fragment {
 
     @Inject
     CalendarRecyclerViewAdapter calendarRecyclerViewAdapter;
 
     private CalendarFragmentBinding binding;
-    private CalendarViewModel calendarViewModel;
 
     public CalendarFragment() {
         super(R.layout.calendar_fragment);
-    }
-
-    @Override
-    public void onCreate(
-            @Nullable Bundle savedInstanceState
-    ) {
-        super.onCreate(savedInstanceState);
-        ((MainActivity) requireActivity()).setOnNotifyCalendarFragment(this);
     }
 
     @Nullable
@@ -59,7 +48,7 @@ public class CalendarFragment extends Fragment implements OnNotifyCalendarFragme
             @Nullable Bundle savedInstanceState
     ) {
         super.onViewCreated(view, savedInstanceState);
-        calendarViewModel = new ViewModelProvider(requireActivity()).get(CalendarViewModel.class);
+        CalendarViewModel calendarViewModel = new ViewModelProvider(requireActivity()).get(CalendarViewModel.class);
 
         binding.recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
@@ -71,11 +60,6 @@ public class CalendarFragment extends Fragment implements OnNotifyCalendarFragme
                 calendarRecyclerViewAdapter.updateList(screenItems);
             }
         });
-    }
-
-    @Override
-    public void onNotify() {
-        calendarViewModel.onNotify();
     }
 
     @Override

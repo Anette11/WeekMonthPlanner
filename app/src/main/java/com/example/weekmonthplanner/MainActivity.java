@@ -13,8 +13,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.weekmonthplanner.broadcast_receiver.TimeChangedBroadcastReceiver;
 import com.example.weekmonthplanner.broadcast_receiver.TimeChangedListener;
 import com.example.weekmonthplanner.databinding.ActivityMainBinding;
-import com.example.weekmonthplanner.utils.OnNotifyCalendarFragment;
-import com.example.weekmonthplanner.utils.OnNotifyHomeFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -24,8 +22,6 @@ public class MainActivity extends AppCompatActivity implements TimeChangedListen
     private ActivityMainBinding binding;
     private MainActivityViewModel mainActivityViewModel;
     private TimeChangedBroadcastReceiver timeChangedBroadcastReceiver;
-    private OnNotifyCalendarFragment onNotifyCalendarFragment;
-    private OnNotifyHomeFragment onNotifyHomeFragment;
 
     @Override
     protected void onCreate(
@@ -63,20 +59,6 @@ public class MainActivity extends AppCompatActivity implements TimeChangedListen
     @Override
     public void onTimeChanged() {
         mainActivityViewModel.onTimeChanged();
-        if (onNotifyHomeFragment != null) onNotifyHomeFragment.onNotify();
-        if (onNotifyCalendarFragment != null) onNotifyCalendarFragment.onNotify();
-    }
-
-    public void setOnNotifyCalendarFragment(
-            OnNotifyCalendarFragment onNotifyCalendarFragment
-    ) {
-        this.onNotifyCalendarFragment = onNotifyCalendarFragment;
-    }
-
-    public void setOnNotifyHomeFragment(
-            OnNotifyHomeFragment onNotifyHomeFragment
-    ) {
-        this.onNotifyHomeFragment = onNotifyHomeFragment;
     }
 
     @Override

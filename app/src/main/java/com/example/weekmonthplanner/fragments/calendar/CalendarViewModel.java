@@ -16,6 +16,7 @@ import com.example.weekmonthplanner.screen_items.ItemWeek;
 import com.example.weekmonthplanner.screen_items.ScreenItem;
 import com.example.weekmonthplanner.utils.DateItem;
 import com.example.weekmonthplanner.utils.ResourcesProvider;
+import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import java.util.ArrayList;
@@ -37,17 +38,22 @@ public class CalendarViewModel extends ViewModel {
     private final WeekCreator weekCreator;
     private final ResourcesProvider resourcesProvider;
     private final GetAllExercisesUseCase getAllExercisesUseCase;
+    private final RxFragmentNotifier rxFragmentNotifier;
+    private Disposable disposableGetAllExercisesUseCase;
 
     @Inject
     public CalendarViewModel(
             WeekCreator weekCreator,
             ResourcesProvider resourcesProvider,
-            GetAllExercisesUseCase getAllExercisesUseCase
+            GetAllExercisesUseCase getAllExercisesUseCase,
+            RxFragmentNotifier rxFragmentNotifier
     ) {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
         this.getAllExercisesUseCase = getAllExercisesUseCase;
+        this.rxFragmentNotifier = rxFragmentNotifier;
         createScreenItems();
+        observeRxFragmentNotifier();
     }
 
     private final MutableLiveData<List<ScreenItem>> _screenItems = new MutableLiveData<>();
@@ -56,18 +62,16 @@ public class CalendarViewModel extends ViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private void createScreenItems() {
-        compositeDisposable.clear();
-        Disposable disposable = getAllExercisesUseCase.getAll()
+        if (disposableGetAllExercisesUseCase != null) disposableGetAllExercisesUseCase.dispose();
+        disposableGetAllExercisesUseCase = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         exercises -> {
                             if (!exercises.isEmpty()) _screenItems.postValue(fillScreen(exercises));
                         },
-                        throwable -> {
-                            Timber.e(throwable.getLocalizedMessage());
-                        }
+                        throwable -> Timber.e(throwable.getLocalizedMessage())
                 );
-        compositeDisposable.add(disposable);
+        compositeDisposable.add(disposableGetAllExercisesUseCase);
     }
 
     private List<ScreenItem> fillScreen(List<Exercise> exercises) {
@@ -151,8 +155,14 @@ public class CalendarViewModel extends ViewModel {
         return list;
     }
 
-    public void onNotify() {
-        createScreenItems();
+    private void observeRxFragmentNotifier() {
+        Disposable disposable = rxFragmentNotifier.getPublishSubject()
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        object -> createScreenItems(),
+                        throwable -> Timber.e(throwable.getLocalizedMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override

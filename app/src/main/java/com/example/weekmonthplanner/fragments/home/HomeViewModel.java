@@ -14,6 +14,7 @@ import com.example.weekmonthplanner.screen_items.ItemWeek;
 import com.example.weekmonthplanner.screen_items.ScreenItem;
 import com.example.weekmonthplanner.utils.DateItem;
 import com.example.weekmonthplanner.utils.ResourcesProvider;
+import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import java.util.ArrayList;
@@ -35,29 +36,33 @@ public class HomeViewModel extends ViewModel {
     private final ResourcesProvider resourcesProvider;
     private final GetAllExercisesUseCase getAllExercisesUseCase;
     private final SaveAllExercisesUseCase saveAllExercisesUseCase;
+    private final RxFragmentNotifier rxFragmentNotifier;
+    private Disposable disposableGetAllExercisesUseCase;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private final MutableLiveData<List<ScreenItem>> _screenItems = new MutableLiveData<>();
+    final LiveData<List<ScreenItem>> screenItems = _screenItems;
 
     @Inject
     public HomeViewModel(
             WeekCreator weekCreator,
             ResourcesProvider resourcesProvider,
             GetAllExercisesUseCase getAllExercisesUseCase,
-            SaveAllExercisesUseCase saveAllExercisesUseCase
+            SaveAllExercisesUseCase saveAllExercisesUseCase,
+            RxFragmentNotifier rxFragmentNotifier
     ) {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
         this.getAllExercisesUseCase = getAllExercisesUseCase;
         this.saveAllExercisesUseCase = saveAllExercisesUseCase;
+        this.rxFragmentNotifier = rxFragmentNotifier;
         createScreenItems();
+        observeRxFragmentNotifier();
     }
 
-    private final MutableLiveData<List<ScreenItem>> _screenItems = new MutableLiveData<>();
-    final LiveData<List<ScreenItem>> screenItems = _screenItems;
-
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-
     private void createScreenItems() {
-        compositeDisposable.clear();
-        Disposable disposable = getAllExercisesUseCase.getAll()
+        if (disposableGetAllExercisesUseCase != null) disposableGetAllExercisesUseCase.dispose();
+        disposableGetAllExercisesUseCase = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         exercises -> {
@@ -87,14 +92,14 @@ public class HomeViewModel extends ViewModel {
                                 _screenItems.postValue(list);
                             }
                         },
-                        throwable -> {
-                            Timber.e(throwable.getLocalizedMessage());
-                        }
+                        throwable -> Timber.e(throwable.getLocalizedMessage())
                 );
-        compositeDisposable.add(disposable);
+        compositeDisposable.add(disposableGetAllExercisesUseCase);
     }
 
-    public void setOnExerciseCompleteClick(ItemMainBlockMenu screenItem) {
+    public void setOnExerciseCompleteClick(
+            ItemMainBlockMenu screenItem
+    ) {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise(
                 screenItem.getExercise().id,
@@ -106,15 +111,19 @@ public class HomeViewModel extends ViewModel {
                 .subscribe(
                         () -> {
                         },
-                        throwable -> {
-                            Timber.e(throwable.getLocalizedMessage());
-                        }
+                        throwable -> Timber.e(throwable.getLocalizedMessage())
                 );
         compositeDisposable.add(disposable);
     }
 
-    public void onNotify() {
-        createScreenItems();
+    private void observeRxFragmentNotifier() {
+        Disposable disposable = rxFragmentNotifier.getPublishSubject()
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        object -> createScreenItems(),
+                        throwable -> Timber.e(throwable.getLocalizedMessage())
+                );
+        compositeDisposable.add(disposable);
     }
 
     @Override

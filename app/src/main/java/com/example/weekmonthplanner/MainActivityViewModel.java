@@ -6,6 +6,7 @@ import com.example.domain.local.Exercise;
 import com.example.domain.use_cases.GetAllExercisesUseCase;
 import com.example.domain.use_cases.SaveAllExercisesUseCase;
 import com.example.weekmonthplanner.utils.ResourcesProvider;
+import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MainActivityViewModel extends ViewModel {
     private final SaveAllExercisesUseCase saveAllExercisesUseCase;
     private final WeekCreator weekCreator;
     private final ResourcesProvider resourcesProvider;
+    private final RxFragmentNotifier rxFragmentNotifier;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
@@ -35,12 +37,14 @@ public class MainActivityViewModel extends ViewModel {
             GetAllExercisesUseCase getAllExercisesUseCase,
             SaveAllExercisesUseCase saveAllExercisesUseCase,
             WeekCreator weekCreator,
-            ResourcesProvider resourcesProvider
+            ResourcesProvider resourcesProvider,
+            RxFragmentNotifier rxFragmentNotifier
     ) {
         this.getAllExercisesUseCase = getAllExercisesUseCase;
         this.saveAllExercisesUseCase = saveAllExercisesUseCase;
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
+        this.rxFragmentNotifier = rxFragmentNotifier;
         getExercises();
     }
 
@@ -93,6 +97,7 @@ public class MainActivityViewModel extends ViewModel {
 
     public void onTimeChanged() {
         getExercises();
+        rxFragmentNotifier.onNext();
     }
 
     @Override
