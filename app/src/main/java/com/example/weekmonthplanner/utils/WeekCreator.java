@@ -47,13 +47,15 @@ public class WeekCreator {
         return list;
     }
 
-    private List<DateItem> createList(int startIndex) {
+    private List<DateItem> createList(
+            int daysToAdd
+    ) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EE", Locale.ENGLISH);
         List<DateItem> list = new ArrayList<>();
-        calendar.add(Calendar.DATE, startIndex);
-        for (int i = startIndex; i <= (startIndex + 6); i++) {
-            if (i != startIndex) calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, daysToAdd);
+        for (int i = daysToAdd; i <= (daysToAdd + 6); i++) {
+            if (i != daysToAdd) calendar.add(Calendar.DATE, 1);
             int colorInt = R.color.black_medium;
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ||
                     calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY ||
