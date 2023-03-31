@@ -107,11 +107,14 @@ public class WeekCreator {
     }
 
     public boolean isExerciseInFuture(int exerciseIndex) {
-        return exerciseIndex > createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK);
+        if (isExerciseToday(exerciseIndex)) return false;
+        return exerciseIndex > createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK) ||
+                (exerciseIndex == Calendar.SUNDAY && createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY);
     }
 
     public boolean isExerciseInPast(int exerciseIndex) {
-        return exerciseIndex < createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK);
+        if (isExerciseToday(exerciseIndex)) return false;
+        return !isExerciseInFuture(exerciseIndex);
     }
 
     private Calendar createCalendarWithMondayStartOfWeek() {
