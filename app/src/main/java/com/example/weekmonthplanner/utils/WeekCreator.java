@@ -9,10 +9,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class WeekCreator {
+
+    private final ResourcesProvider resourcesProvider;
+
+    public WeekCreator(ResourcesProvider resourcesProvider) {
+        this.resourcesProvider = resourcesProvider;
+    }
 
     public List<DateItem> createDateItems() {
         List<DateItem> list;
@@ -57,10 +65,11 @@ public class WeekCreator {
         for (int i = daysToAdd; i <= (daysToAdd + 6); i++) {
             if (i != daysToAdd) calendar.add(Calendar.DATE, 1);
             int colorInt = R.color.black_medium;
-            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY ||
-                    calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY ||
-                    calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                colorInt = R.color.black_darker;
+            Map<Integer, String> map = getExercisesPlan();
+            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                if (calendar.get(Calendar.DAY_OF_WEEK) == entry.getKey()) {
+                    colorInt = R.color.black_darker;
+                }
             }
             if (DateUtils.isToday(calendar.getTime().getTime())) {
                 colorInt = R.color.green_light;
@@ -134,5 +143,13 @@ public class WeekCreator {
             return exercises;
         }
         return new ArrayList<>();
+    }
+
+    public Map<Integer, String> getExercisesPlan() {
+        Map<Integer, String> map = new LinkedHashMap<>();
+        map.put(Calendar.MONDAY, resourcesProvider.getString(R.string.exercise_block_monday_name));
+        map.put(Calendar.WEDNESDAY, resourcesProvider.getString(R.string.exercise_block_wednesday_name));
+        map.put(Calendar.FRIDAY, resourcesProvider.getString(R.string.exercise_block_friday_name));
+        return map;
     }
 }

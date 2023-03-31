@@ -10,9 +10,9 @@ import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -28,7 +28,6 @@ public class MainActivityViewModel extends ViewModel {
     private final GetAllExercisesUseCase getAllExercisesUseCase;
     private final SaveAllExercisesUseCase saveAllExercisesUseCase;
     private final WeekCreator weekCreator;
-    private final ResourcesProvider resourcesProvider;
     private final RxFragmentNotifier rxFragmentNotifier;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -37,13 +36,11 @@ public class MainActivityViewModel extends ViewModel {
             GetAllExercisesUseCase getAllExercisesUseCase,
             SaveAllExercisesUseCase saveAllExercisesUseCase,
             WeekCreator weekCreator,
-            ResourcesProvider resourcesProvider,
             RxFragmentNotifier rxFragmentNotifier
     ) {
         this.getAllExercisesUseCase = getAllExercisesUseCase;
         this.saveAllExercisesUseCase = saveAllExercisesUseCase;
         this.weekCreator = weekCreator;
-        this.resourcesProvider = resourcesProvider;
         this.rxFragmentNotifier = rxFragmentNotifier;
         getExercises();
     }
@@ -77,21 +74,14 @@ public class MainActivityViewModel extends ViewModel {
         List<Exercise> list = new ArrayList<>();
         boolean isCompleted = false;
         long modifiedAt = new Date().getTime();
-        list.add(new Exercise(
-                Calendar.MONDAY,
-                isCompleted,
-                resourcesProvider.getString(R.string.exercise_block_monday_name),
-                modifiedAt));
-        list.add(new Exercise(
-                Calendar.WEDNESDAY,
-                isCompleted,
-                resourcesProvider.getString(R.string.exercise_block_wednesday_name),
-                modifiedAt));
-        list.add(new Exercise(
-                Calendar.FRIDAY,
-                isCompleted,
-                resourcesProvider.getString(R.string.exercise_block_friday_name),
-                modifiedAt));
+        Map<Integer, String> map = weekCreator.getExercisesPlan();
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            list.add(new Exercise(
+                    entry.getKey(),
+                    isCompleted,
+                    entry.getValue(),
+                    modifiedAt));
+        }
         return list;
     }
 

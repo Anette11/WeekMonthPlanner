@@ -29,8 +29,10 @@ public class UtilsModule {
 
     @Provides
     @Singleton
-    WeekCreator provideWeekCreator() {
-        return new WeekCreator();
+    WeekCreator provideWeekCreator(
+            ResourcesProvider resourcesProvider
+    ) {
+        return new WeekCreator(resourcesProvider);
     }
 
     @Provides
