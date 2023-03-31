@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements TimeChangedListen
     @Override
     public void onTimeChanged() {
         mainActivityViewModel.onTimeChanged();
-        onNotifyCalendarFragment.onNotify();
-        onNotifyHomeFragment.onNotify();
+        if (onNotifyHomeFragment != null) onNotifyHomeFragment.onNotify();
+        if (onNotifyCalendarFragment != null) onNotifyCalendarFragment.onNotify();
     }
 
     public void setOnNotifyCalendarFragment(
