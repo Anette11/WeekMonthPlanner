@@ -140,10 +140,20 @@ public class CalendarViewModel extends ViewModel {
             }
         }
 
-        if (!exercisesToday.isEmpty()) exercisesToday.add(0, itemTextSmallToday);
-        if (!exercisesCompleted.isEmpty()) exercisesCompleted.add(0, itemTextSmallCompleted);
-        if (!exercisesOnTheWeek.isEmpty()) exercisesOnTheWeek.add(0, itemTextSmallOnTheWeek);
-        if (!exercisesNextWeek.isEmpty()) exercisesNextWeek.add(0, itemTextSmallNextWeek);
+        int firstIndexInList = 0;
+
+        if (!exercisesToday.isEmpty()) {
+            exercisesToday.add(firstIndexInList, itemTextSmallToday);
+        }
+        if (!exercisesCompleted.isEmpty()) {
+            exercisesCompleted.add(firstIndexInList, itemTextSmallCompleted);
+        }
+        if (!exercisesOnTheWeek.isEmpty()) {
+            exercisesOnTheWeek.add(firstIndexInList, itemTextSmallOnTheWeek);
+        }
+        if (!exercisesNextWeek.isEmpty()) {
+            exercisesNextWeek.add(firstIndexInList, itemTextSmallNextWeek);
+        }
 
         list.addAll(exercisesToday);
         list.addAll(exercisesOnTheWeek);
