@@ -17,8 +17,8 @@ public class WeekCreator {
     public List<DateItem> createDateItems() {
         List<DateItem> list;
         Calendar calendar = Calendar.getInstance();
-        int week = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (week) {
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
             case Calendar.MONDAY:
                 list = createList(0);
                 break;
