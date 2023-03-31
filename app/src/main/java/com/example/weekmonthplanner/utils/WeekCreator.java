@@ -24,7 +24,7 @@ public class WeekCreator {
 
     public List<DateItem> createDateItems() {
         List<DateItem> list;
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = createCalendarWithMondayStartOfWeek();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         switch (dayOfWeek) {
             case Calendar.MONDAY:
@@ -58,7 +58,7 @@ public class WeekCreator {
     private List<DateItem> createList(
             int daysToAdd
     ) {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = createCalendarWithMondayStartOfWeek();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EE", Locale.ENGLISH);
         List<DateItem> list = new ArrayList<>();
         calendar.add(Calendar.DATE, daysToAdd);
@@ -83,7 +83,7 @@ public class WeekCreator {
     }
 
     public int getCurrentDayOfWeekIndex() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        return createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK);
     }
 
     public String createDateString(
@@ -91,7 +91,7 @@ public class WeekCreator {
             boolean forNextWeek
     ) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = createCalendarWithMondayStartOfWeek();
         calendar.setFirstDayOfWeek(Calendar.SUNDAY);
         if (forNextWeek) calendar.add(Calendar.DATE, 7);
         String dateString;
@@ -103,15 +103,21 @@ public class WeekCreator {
     }
 
     public boolean isExerciseToday(int exerciseIndex) {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == exerciseIndex;
+        return createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK) == exerciseIndex;
     }
 
     public boolean isExerciseInFuture(int exerciseIndex) {
-        return exerciseIndex > Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        return exerciseIndex > createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK);
     }
 
     public boolean isExerciseInPast(int exerciseIndex) {
-        return exerciseIndex < Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        return exerciseIndex < createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK);
+    }
+
+    private Calendar createCalendarWithMondayStartOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        return calendar;
     }
 
     public List<Exercise> updateInExercisesFieldIsCompleted(
@@ -122,11 +128,9 @@ public class WeekCreator {
             Exercise exercise = list.get(i);
             if (modifiedAt < exercise.modifiedAt) modifiedAt = exercise.modifiedAt;
         }
-        Calendar calendarModifiedAt = Calendar.getInstance();
+        Calendar calendarModifiedAt = createCalendarWithMondayStartOfWeek();
         calendarModifiedAt.setTime(new Date(modifiedAt));
-        calendarModifiedAt.setFirstDayOfWeek(calendarModifiedAt.getFirstDayOfWeek());
-        Calendar calendarStartCurrentWeek = Calendar.getInstance();
-        calendarStartCurrentWeek.setFirstDayOfWeek(calendarStartCurrentWeek.getFirstDayOfWeek());
+        Calendar calendarStartCurrentWeek = createCalendarWithMondayStartOfWeek();
         if (calendarModifiedAt.get(Calendar.WEEK_OF_YEAR) != calendarStartCurrentWeek.get(Calendar.WEEK_OF_YEAR)
         ) {
             List<Exercise> exercises = new ArrayList<>();
