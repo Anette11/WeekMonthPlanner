@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_name">WeekMonthPlanner</string>
+    <string name="app_name">Planner</string>
     <string name="calendar">CALENDAR</string>
     <string name="completed">COMPLETED</string>
     <string name="empty" />
