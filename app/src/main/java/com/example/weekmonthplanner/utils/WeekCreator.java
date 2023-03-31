@@ -84,30 +84,8 @@ public class WeekCreator {
         calendar.setFirstDayOfWeek(Calendar.SUNDAY);
         if (forNextWeek) calendar.add(Calendar.DATE, 7);
         String dateString;
-        switch (exerciseIndex) {
-            case Calendar.MONDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                break;
-            case Calendar.TUESDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-                break;
-            case Calendar.WEDNESDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-                break;
-            case Calendar.THURSDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-                break;
-            case Calendar.FRIDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-                break;
-            case Calendar.SATURDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                break;
-            case Calendar.SUNDAY:
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                break;
-            default:
-                break;
+        if (exerciseIndex >= Calendar.SUNDAY && exerciseIndex <= Calendar.SATURDAY) {
+            calendar.set(Calendar.DAY_OF_WEEK, exerciseIndex);
         }
         dateString = simpleDateFormat.format(calendar.getTime());
         return dateString;
