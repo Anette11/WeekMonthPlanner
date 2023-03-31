@@ -2,11 +2,13 @@ package com.example.weekmonthplanner.utils;
 
 import android.text.format.DateUtils;
 
+import com.example.domain.local.Exercise;
 import com.example.weekmonthplanner.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -121,5 +123,36 @@ public class WeekCreator {
 
     public boolean isExerciseInPast(int exerciseIndex) {
         return exerciseIndex < Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    }
+
+    public List<Exercise> updateInExercisesFieldIsCompleted(
+            List<Exercise> list
+    ) {
+        long modifiedAt = 0L;
+        for (int i = 0; i < list.size(); i++) {
+            Exercise exercise = list.get(i);
+            if (modifiedAt < exercise.modifiedAt) modifiedAt = exercise.modifiedAt;
+        }
+        Calendar calendarModifiedAt = Calendar.getInstance();
+        calendarModifiedAt.setTime(new Date(modifiedAt));
+        calendarModifiedAt.setFirstDayOfWeek(calendarModifiedAt.getFirstDayOfWeek());
+        Calendar calendarStartCurrentWeek = Calendar.getInstance();
+        calendarStartCurrentWeek.setFirstDayOfWeek(calendarStartCurrentWeek.getFirstDayOfWeek());
+        if (calendarModifiedAt.get(Calendar.WEEK_OF_YEAR) != calendarStartCurrentWeek.get(Calendar.WEEK_OF_YEAR)
+        ) {
+            List<Exercise> exercises = new ArrayList<>();
+            boolean isCompleted = false;
+            long modifiedAtUpdated = new Date().getTime();
+            for (int i = 0; i < list.size(); i++) {
+                Exercise exercise = list.get(i);
+                exercises.add(new Exercise(
+                        exercise.id,
+                        isCompleted,
+                        exercise.name,
+                        modifiedAtUpdated));
+            }
+            return exercises;
+        }
+        return new ArrayList<>();
     }
 }

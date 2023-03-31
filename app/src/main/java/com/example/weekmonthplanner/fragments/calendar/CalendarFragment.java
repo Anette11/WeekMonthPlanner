@@ -11,16 +11,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.weekmonthplanner.MainActivity;
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.adapters.CalendarRecyclerViewAdapter;
 import com.example.weekmonthplanner.databinding.CalendarFragmentBinding;
+import com.example.weekmonthplanner.utils.OnNotifyCalendarFragment;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements OnNotifyCalendarFragment {
 
     @Inject
     CalendarRecyclerViewAdapter calendarRecyclerViewAdapter;
@@ -30,6 +32,14 @@ public class CalendarFragment extends Fragment {
 
     public CalendarFragment() {
         super(R.layout.calendar_fragment);
+    }
+
+    @Override
+    public void onCreate(
+            @Nullable Bundle savedInstanceState
+    ) {
+        super.onCreate(savedInstanceState);
+        ((MainActivity) requireActivity()).setOnNotifyCalendarFragment(this);
     }
 
     @Nullable
@@ -64,9 +74,8 @@ public class CalendarFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        calendarViewModel.createScreenItems();
+    public void onNotify() {
+        calendarViewModel.onNotify();
     }
 
     @Override

@@ -11,16 +11,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.weekmonthplanner.MainActivity;
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.adapters.HomeRecyclerViewAdapter;
 import com.example.weekmonthplanner.databinding.HomeFragmentBinding;
+import com.example.weekmonthplanner.utils.OnNotifyHomeFragment;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnNotifyHomeFragment {
 
     @Inject
     HomeRecyclerViewAdapter homeRecyclerViewAdapter;
@@ -30,6 +32,14 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment() {
         super(R.layout.home_fragment);
+    }
+
+    @Override
+    public void onCreate(
+            @Nullable Bundle savedInstanceState
+    ) {
+        super.onCreate(savedInstanceState);
+        ((MainActivity) requireActivity()).setOnNotifyHomeFragment(this);
     }
 
     @Nullable
@@ -66,9 +76,8 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        homeViewModel.createScreenItems();
+    public void onNotify() {
+        homeViewModel.onNotify();
     }
 
     @Override

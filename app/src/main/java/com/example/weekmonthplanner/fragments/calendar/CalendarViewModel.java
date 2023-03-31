@@ -9,6 +9,7 @@ import com.example.domain.use_cases.GetAllExercisesUseCase;
 import com.example.weekmonthplanner.R;
 import com.example.weekmonthplanner.screen_items.ItemDivider;
 import com.example.weekmonthplanner.screen_items.ItemExercise;
+import com.example.weekmonthplanner.screen_items.ItemSpace;
 import com.example.weekmonthplanner.screen_items.ItemTextLarge;
 import com.example.weekmonthplanner.screen_items.ItemTextSmall;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
@@ -46,6 +47,7 @@ public class CalendarViewModel extends ViewModel {
         this.weekCreator = weekCreator;
         this.resourcesProvider = resourcesProvider;
         this.getAllExercisesUseCase = getAllExercisesUseCase;
+        createScreenItems();
     }
 
     private final MutableLiveData<List<ScreenItem>> _screenItems = new MutableLiveData<>();
@@ -53,7 +55,7 @@ public class CalendarViewModel extends ViewModel {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public void createScreenItems() {
+    private void createScreenItems() {
         compositeDisposable.clear();
         Disposable disposable = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
@@ -144,7 +146,13 @@ public class CalendarViewModel extends ViewModel {
         list.addAll(exercisesCompleted);
         list.addAll(exercisesNextWeek);
 
+        list.add(new ItemSpace());
+
         return list;
+    }
+
+    public void onNotify() {
+        createScreenItems();
     }
 
     @Override

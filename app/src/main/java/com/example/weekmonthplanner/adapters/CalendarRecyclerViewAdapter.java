@@ -8,16 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weekmonthplanner.adapters.viewholders.ViewHolderItemDivider;
 import com.example.weekmonthplanner.adapters.viewholders.ViewHolderItemExercise;
+import com.example.weekmonthplanner.adapters.viewholders.ViewHolderItemSpace;
 import com.example.weekmonthplanner.adapters.viewholders.ViewHolderItemTextLarge;
 import com.example.weekmonthplanner.adapters.viewholders.ViewHolderItemTextSmall;
 import com.example.weekmonthplanner.adapters.viewholders.ViewHolderItemWeek;
 import com.example.weekmonthplanner.databinding.ItemDividerBinding;
 import com.example.weekmonthplanner.databinding.ItemExerciseBinding;
+import com.example.weekmonthplanner.databinding.ItemSpaceBinding;
 import com.example.weekmonthplanner.databinding.ItemTextLargeBinding;
 import com.example.weekmonthplanner.databinding.ItemTextSmallBinding;
 import com.example.weekmonthplanner.databinding.ItemWeekBinding;
 import com.example.weekmonthplanner.screen_items.ItemDivider;
 import com.example.weekmonthplanner.screen_items.ItemExercise;
+import com.example.weekmonthplanner.screen_items.ItemSpace;
 import com.example.weekmonthplanner.screen_items.ItemTextLarge;
 import com.example.weekmonthplanner.screen_items.ItemTextSmall;
 import com.example.weekmonthplanner.screen_items.ItemWeek;
@@ -68,6 +71,10 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             ItemExerciseBinding itemExerciseBinding = ItemExerciseBinding
                     .inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new ViewHolderItemExercise(itemExerciseBinding);
+        } else if (viewType == RecyclerViewItem.ITEM_SPACE.value) {
+            ItemSpaceBinding itemSpaceBinding = ItemSpaceBinding
+                    .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new ViewHolderItemSpace(itemSpaceBinding);
         }
         throw new RuntimeException("Can't get viewHolder");
     }
@@ -105,6 +112,8 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             return RecyclerViewItem.ITEM_TEXT_SMALL.value;
         } else if (screenItem instanceof ItemExercise) {
             return RecyclerViewItem.ITEM_EXERCISE.value;
+        } else if (screenItem instanceof ItemSpace) {
+            return RecyclerViewItem.ITEM_SPACE.value;
         }
         throw new RuntimeException("Can't get item type");
     }

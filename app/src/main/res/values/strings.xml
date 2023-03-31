@@ -10,6 +10,9 @@
     <string name="example_exercise">Exercise3</string>
     <string name="exercise_1_completed">Exercise1 completed</string>
     <string name="exercise_completed">%1s completed</string>
+    <string name="exercise_block_monday_name">Exercise1</string>
+    <string name="exercise_block_wednesday_name">Exercise2</string>
+    <string name="exercise_block_friday_name">Exercise3</string>
     <string name="fragment_1_name">Unknown 1 fragment</string>
     <string name="fragment_2_name">Unknown 2 fragment</string>
     <string name="full_name">STEPAN STEPANOV</string>

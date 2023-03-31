@@ -17,6 +17,7 @@ import com.example.weekmonthplanner.utils.ResourcesProvider;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,6 +47,7 @@ public class HomeViewModel extends ViewModel {
         this.resourcesProvider = resourcesProvider;
         this.getAllExercisesUseCase = getAllExercisesUseCase;
         this.saveAllExercisesUseCase = saveAllExercisesUseCase;
+        createScreenItems();
     }
 
     private final MutableLiveData<List<ScreenItem>> _screenItems = new MutableLiveData<>();
@@ -53,7 +55,7 @@ public class HomeViewModel extends ViewModel {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public void createScreenItems() {
+    private void createScreenItems() {
         compositeDisposable.clear();
         Disposable disposable = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
@@ -94,7 +96,11 @@ public class HomeViewModel extends ViewModel {
 
     public void setOnExerciseCompleteClick(ItemMainBlockMenu screenItem) {
         List<Exercise> exercises = new ArrayList<>();
-        exercises.add(new Exercise(screenItem.getExercise().id, true, screenItem.getExercise().name));
+        exercises.add(new Exercise(
+                screenItem.getExercise().id,
+                true,
+                screenItem.getExercise().name,
+                new Date().getTime()));
         Disposable disposable = saveAllExercisesUseCase.saveAll(exercises)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
@@ -105,6 +111,10 @@ public class HomeViewModel extends ViewModel {
                         }
                 );
         compositeDisposable.add(disposable);
+    }
+
+    public void onNotify() {
+        createScreenItems();
     }
 
     @Override
