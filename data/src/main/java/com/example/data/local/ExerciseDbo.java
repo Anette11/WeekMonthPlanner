@@ -3,8 +3,6 @@ package com.example.data.local;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-
 @Entity(tableName = "exercise_table")
 public class ExerciseDbo {
 
@@ -13,7 +11,6 @@ public class ExerciseDbo {
 
     public boolean isCompleted;
     public String name;
-    public long modifiedAt;
 
     public ExerciseDbo(
             int id,
@@ -23,6 +20,5 @@ public class ExerciseDbo {
         this.id = id;
         this.isCompleted = isCompleted;
         this.name = name;
-        this.modifiedAt = new Date().getTime();
     }
 }

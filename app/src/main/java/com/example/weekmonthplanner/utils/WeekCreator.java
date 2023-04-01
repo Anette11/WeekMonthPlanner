@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -22,68 +22,65 @@ public class WeekCreator {
         this.resourcesProvider = resourcesProvider;
     }
 
+    public List<Exercise> createExercisesAccordingToTimetable() {
+        List<Exercise> list = new ArrayList<>();
+        boolean isCompleted = false;
+        Map<Integer, String> map = getExercisesPlanForWeek();
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            list.add(new Exercise(
+                    entry.getKey(),
+                    isCompleted,
+                    entry.getValue()));
+        }
+        return list;
+    }
+
     public List<DateItem> createDateItems() {
-        List<DateItem> list;
-        Calendar calendar = createCalendarWithMondayStartOfWeek();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (dayOfWeek) {
-            case Calendar.MONDAY:
-                list = createList(0);
-                break;
-            case Calendar.TUESDAY:
-                list = createList(-1);
-                break;
-            case Calendar.WEDNESDAY:
-                list = createList(-2);
-                break;
-            case Calendar.THURSDAY:
-                list = createList(-3);
-                break;
-            case Calendar.FRIDAY:
-                list = createList(-4);
-                break;
-            case Calendar.SATURDAY:
-                list = createList(-5);
-                break;
-            case Calendar.SUNDAY:
-                list = createList(-6);
-                break;
-            default:
-                list = new ArrayList<>();
-                break;
+        int dayOfWeek = getCurrentDayOfWeekIndex();
+        int offset = getOffsetAccordingToCurrentDayOfWeek(dayOfWeek);
+        List<Date> listOfCalendarDatesForCurrentWeek = getListOfCalendarDatesForCurrentWeek(offset);
+        List<DateItem> dateItems = new ArrayList<>();
+        for (int i = 0; i < listOfCalendarDatesForCurrentWeek.size(); i++) {
+            Date date = listOfCalendarDatesForCurrentWeek.get(i);
+            dateItems.add(new DateItem(
+                    findDayOfMonthForDateItem(date),
+                    findDayOfWeekForDateItem(date),
+                    findColorIntForDateItem(date)));
         }
-        return list;
+        return dateItems;
     }
 
-    private List<DateItem> createList(
-            int daysToAdd
+    private int findColorIntForDateItem(
+            Date date
     ) {
-        Calendar calendar = createCalendarWithMondayStartOfWeek();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EE", Locale.ENGLISH);
-        List<DateItem> list = new ArrayList<>();
-        calendar.add(Calendar.DATE, daysToAdd);
-        for (int i = daysToAdd; i <= (daysToAdd + 6); i++) {
-            if (i != daysToAdd) calendar.add(Calendar.DATE, 1);
-            int colorInt = R.color.black_medium;
-            Map<Integer, String> map = getExercisesPlan();
-            for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                if (calendar.get(Calendar.DAY_OF_WEEK) == entry.getKey()) {
-                    colorInt = R.color.black_darker;
-                }
+        int colorInt = R.color.black_medium;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Map<Integer, String> exercisesPlanForWeek = getExercisesPlanForWeek();
+        for (Map.Entry<Integer, String> entry : exercisesPlanForWeek.entrySet()) {
+            if (calendar.get(Calendar.DAY_OF_WEEK) == entry.getKey()) {
+                colorInt = R.color.black_darker;
             }
-            if (DateUtils.isToday(calendar.getTime().getTime())) {
-                colorInt = R.color.green_light;
-            }
-            list.add(new DateItem(
-                    String.valueOf(calendar.get(Calendar.DATE)),
-                    simpleDateFormat.format(calendar.getTime().getTime()).toUpperCase(),
-                    colorInt));
         }
-        return list;
+        if (DateUtils.isToday(calendar.getTime().getTime())) {
+            colorInt = R.color.green_light;
+        }
+        return colorInt;
     }
 
-    public int getCurrentDayOfWeekIndex() {
-        return createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK);
+    private String findDayOfMonthForDateItem(
+            Date date
+    ) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return String.valueOf(calendar.get(Calendar.DATE));
+    }
+
+    private String findDayOfWeekForDateItem(
+            Date date
+    ) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EE", Locale.ENGLISH);
+        return simpleDateFormat.format(date.getTime()).toUpperCase();
     }
 
     public String createDateString(
@@ -91,8 +88,7 @@ public class WeekCreator {
             boolean forNextWeek
     ) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
-        Calendar calendar = createCalendarWithMondayStartOfWeek();
-        calendar.setFirstDayOfWeek(Calendar.SUNDAY);
+        Calendar calendar = Calendar.getInstance();
         if (forNextWeek) calendar.add(Calendar.DATE, 7);
         String dateString;
         if (exerciseIndex >= Calendar.SUNDAY && exerciseIndex <= Calendar.SATURDAY) {
@@ -102,79 +98,105 @@ public class WeekCreator {
         return dateString;
     }
 
-    public boolean isExerciseToday(int exerciseIndex) {
-        return createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK) == exerciseIndex;
-    }
-
-    public boolean isExerciseInFuture(int exerciseIndex) {
-        if (isExerciseToday(exerciseIndex)) return false;
-        return exerciseIndex > createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK) ||
-                (exerciseIndex == Calendar.SUNDAY && createCalendarWithMondayStartOfWeek().get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY);
-    }
-
-    public boolean isExerciseInPast(int exerciseIndex) {
-        if (isExerciseToday(exerciseIndex)) return false;
-        return !isExerciseInFuture(exerciseIndex);
-    }
-
-    private Calendar createCalendarWithMondayStartOfWeek() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        return calendar;
-    }
-
     public List<Exercise> updateInExercisesFieldIsCompleted(
             List<Exercise> list
     ) {
-        long modifiedAt = 0L;
+        List<Exercise> exercisesUpdated = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        boolean isCompletedUpdated = false;
         for (int i = 0; i < list.size(); i++) {
             Exercise exercise = list.get(i);
-            if (modifiedAt < exercise.modifiedAt) modifiedAt = exercise.modifiedAt;
-        }
-        Calendar calendarModifiedAt = createCalendarWithMondayStartOfWeek();
-        calendarModifiedAt.setTime(new Date(modifiedAt));
-        Calendar calendarStartCurrentWeek = createCalendarWithMondayStartOfWeek();
-        if (calendarModifiedAt.get(Calendar.WEEK_OF_YEAR) != calendarStartCurrentWeek.get(Calendar.WEEK_OF_YEAR)
-        ) {
-            List<Exercise> exercises = new ArrayList<>();
-            boolean isCompleted = false;
-            long modifiedAtUpdated = new Date().getTime();
-            for (int i = 0; i < list.size(); i++) {
-                Exercise exercise = list.get(i);
-                exercises.add(new Exercise(
+            if (exercise.id != calendar.get(Calendar.DAY_OF_WEEK) &&
+                    exercise.isCompleted != isCompletedUpdated
+            ) {
+                exercisesUpdated.add(new Exercise(
                         exercise.id,
-                        isCompleted,
-                        exercise.name,
-                        modifiedAtUpdated));
+                        isCompletedUpdated,
+                        exercise.name));
             }
-            return exercises;
-        } else {
-            List<Exercise> exercises = new ArrayList<>();
-            long modifiedAtUpdated = new Date().getTime();
-            for (int i = 0; i < list.size(); i++) {
-                Exercise exercise = list.get(i);
-                boolean isCompletedFromExercise = exercise.isCompleted;
-                boolean isCompletedFromUpdate = exercise.isCompleted;
-                if (isExerciseToday(exercise.id)) isCompletedFromUpdate = exercise.isCompleted;
-                if (isExerciseInPast(exercise.id)) isCompletedFromUpdate = true;
-                if (isExerciseInFuture(exercise.id)) isCompletedFromUpdate = false;
-                if (isCompletedFromExercise != isCompletedFromUpdate) {
-                    exercises.add(new Exercise(
-                            exercise.id,
-                            isCompletedFromUpdate,
-                            exercise.name,
-                            modifiedAtUpdated));
-                }
-            }
-            return exercises;
         }
+        return exercisesUpdated;
     }
 
-    public Map<Integer, String> getExercisesPlan() {
-        Map<Integer, String> map = new LinkedHashMap<>();
+    private List<Integer> getListDaysOfWeek() {
+        List<Integer> list = new ArrayList<>();
+        list.add(Calendar.MONDAY);
+        list.add(Calendar.TUESDAY);
+        list.add(Calendar.WEDNESDAY);
+        list.add(Calendar.THURSDAY);
+        list.add(Calendar.FRIDAY);
+        list.add(Calendar.SATURDAY);
+        list.add(Calendar.SUNDAY);
+        return list;
+    }
+
+    private Map<Integer, Integer> getMapDaysOfWeekWithOffset() {
+        Map<Integer, Integer> map = new HashMap<>();
+        List<Integer> daysOfWeek = getListDaysOfWeek();
+        int offset = 0;
+        for (int i = 0; i < daysOfWeek.size(); i++) {
+            offset -= 1;
+            map.put(daysOfWeek.get(i), offset);
+        }
+        return map;
+    }
+
+    private int getOffsetAccordingToCurrentDayOfWeek(
+            int currentDayOfWeek
+    ) {
+        Map<Integer, Integer> map = getMapDaysOfWeekWithOffset();
+        int offset;
+        try {
+            offset = map.get(currentDayOfWeek);
+        } catch (NullPointerException e) {
+            offset = 0;
+        }
+        return offset;
+    }
+
+    private List<Date> getListOfCalendarDatesForCurrentWeek(
+            int offset
+    ) {
+        List<Date> list = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, offset);
+        List<Integer> listDaysOfWeek = getListDaysOfWeek();
+        for (int i = 0; i < listDaysOfWeek.size(); i++) {
+            calendar.add(Calendar.DATE, 1);
+            list.add(new Date(calendar.getTime().getTime()));
+        }
+        return list;
+    }
+
+    private Map<Integer, String> getExercisesPlanForWeek() {
+        Map<Integer, String> map = new HashMap<>();
         map.put(Calendar.MONDAY, resourcesProvider.getString(R.string.exercise_block_monday_name));
         map.put(Calendar.WEDNESDAY, resourcesProvider.getString(R.string.exercise_block_wednesday_name));
         map.put(Calendar.FRIDAY, resourcesProvider.getString(R.string.exercise_block_friday_name));
         return map;
+    }
+
+    public int getCurrentDayOfWeekIndex() {
+        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    }
+
+    public boolean isExerciseToday(int exerciseIndex) {
+        return getCurrentDayOfWeekIndex() == exerciseIndex;
+    }
+
+    public boolean isExerciseInFuture(int exerciseIndex) {
+        if (isExerciseToday(exerciseIndex)) return false;
+        if (exerciseIndex == Calendar.SUNDAY && getCurrentDayOfWeekIndex() != Calendar.SUNDAY) {
+            return true;
+        }
+        return exerciseIndex > getCurrentDayOfWeekIndex();
+    }
+
+    public boolean isExerciseInPast(int exerciseIndex) {
+        if (isExerciseToday(exerciseIndex)) return false;
+        if (exerciseIndex == Calendar.SUNDAY && getCurrentDayOfWeekIndex() != Calendar.SUNDAY) {
+            return false;
+        }
+        return exerciseIndex < getCurrentDayOfWeekIndex();
     }
 }

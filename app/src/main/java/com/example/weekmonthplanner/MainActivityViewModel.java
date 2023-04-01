@@ -5,14 +5,10 @@ import androidx.lifecycle.ViewModel;
 import com.example.domain.local.Exercise;
 import com.example.domain.use_cases.GetAllExercisesUseCase;
 import com.example.domain.use_cases.SaveAllExercisesUseCase;
-import com.example.weekmonthplanner.utils.ResourcesProvider;
 import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -47,7 +43,7 @@ public class MainActivityViewModel extends ViewModel {
 
     private void getExercises() {
         compositeDisposable.clear();
-        List<Exercise> list = createExercisesAccordingToTimetable();
+        List<Exercise> list = weekCreator.createExercisesAccordingToTimetable();
         Disposable disposableGetAll = getAllExercisesUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .subscribe(
@@ -68,21 +64,6 @@ public class MainActivityViewModel extends ViewModel {
                         throwable -> Timber.e(throwable.getLocalizedMessage())
                 );
         compositeDisposable.add(disposableGetAll);
-    }
-
-    private List<Exercise> createExercisesAccordingToTimetable() {
-        List<Exercise> list = new ArrayList<>();
-        boolean isCompleted = false;
-        long modifiedAt = new Date().getTime();
-        Map<Integer, String> map = weekCreator.getExercisesPlan();
-        for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            list.add(new Exercise(
-                    entry.getKey(),
-                    isCompleted,
-                    entry.getValue(),
-                    modifiedAt));
-        }
-        return list;
     }
 
     public void onTimeChanged() {

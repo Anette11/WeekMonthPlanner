@@ -18,7 +18,6 @@ import com.example.weekmonthplanner.utils.RxFragmentNotifier;
 import com.example.weekmonthplanner.utils.WeekCreator;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -104,8 +103,7 @@ public class HomeViewModel extends ViewModel {
         exercises.add(new Exercise(
                 screenItem.getExercise().id,
                 true,
-                screenItem.getExercise().name,
-                new Date().getTime()));
+                screenItem.getExercise().name));
         Disposable disposable = saveAllExercisesUseCase.saveAll(exercises)
                 .subscribeOn(Schedulers.io())
                 .subscribe(

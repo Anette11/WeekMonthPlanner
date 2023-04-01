@@ -13,8 +13,7 @@ public class Mapper {
         return new Exercise(
                 exerciseDbo.id,
                 exerciseDbo.isCompleted,
-                exerciseDbo.name,
-                exerciseDbo.modifiedAt);
+                exerciseDbo.name);
     }
 
     private static ExerciseDbo exerciseToExerciseDbo(
