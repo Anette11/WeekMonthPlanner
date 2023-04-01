@@ -74,7 +74,9 @@ public class CalendarViewModel extends ViewModel {
         compositeDisposable.add(disposableGetAllExercisesUseCase);
     }
 
-    private List<ScreenItem> fillScreen(List<Exercise> exercises) {
+    private List<ScreenItem> fillScreen(
+            List<Exercise> exercises
+    ) {
         Collections.sort(exercises, new Comparator<Exercise>() {
             @Override
             public int compare(Exercise exercise1, Exercise exercise2) {
@@ -97,10 +99,9 @@ public class CalendarViewModel extends ViewModel {
         List<ScreenItem> exercisesOnTheWeek = new ArrayList<>();
         List<ScreenItem> exercisesNextWeek = new ArrayList<>();
 
-        boolean areAllExercisesCompleted = true;
+        boolean areAllExercisesCompleted = weekCreator.areAllExercisesCompleted(exercises);
 
         for (int i = 0; i < exercises.size(); i++) {
-            if (!exercises.get(i).isCompleted) areAllExercisesCompleted = false;
             int colorInt = R.color.black_medium;
             if (weekCreator.isExerciseToday(exercises.get(i).id) && !exercises.get(i).isCompleted) {
                 colorInt = R.color.green_light;

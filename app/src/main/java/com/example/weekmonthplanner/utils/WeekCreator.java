@@ -8,6 +8,8 @@ import com.example.weekmonthplanner.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -198,5 +200,21 @@ public class WeekCreator {
             return false;
         }
         return exerciseIndex < getCurrentDayOfWeekIndex();
+    }
+
+    public boolean areAllExercisesCompleted(
+            List<Exercise> exercises
+    ) {
+        if (exercises.isEmpty()) return true;
+        Collections.sort(exercises, new Comparator<Exercise>() {
+            @Override
+            public int compare(Exercise exercise1, Exercise exercise2) {
+                return exercise1.id - exercise2.id;
+            }
+        });
+        Collections.reverse(exercises);
+        if (exercises.get(0).isCompleted) return true;
+        if (exercises.size() == 1) return false;
+        return !exercises.get(1).isCompleted;
     }
 }
