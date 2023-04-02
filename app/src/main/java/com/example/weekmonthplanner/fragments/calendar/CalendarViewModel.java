@@ -143,6 +143,11 @@ public class CalendarViewModel extends ViewModel {
 
         int firstIndexInList = 0;
 
+        Collections.reverse(exercisesToday);
+        Collections.reverse(exercisesOnTheWeek);
+        Collections.reverse(exercisesCompleted);
+        Collections.reverse(exercisesNextWeek);
+
         if (!exercisesToday.isEmpty()) {
             exercisesToday.add(firstIndexInList, itemTextSmallToday);
         }
