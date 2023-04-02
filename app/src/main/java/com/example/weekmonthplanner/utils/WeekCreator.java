@@ -214,7 +214,8 @@ public class WeekCreator {
         });
         Collections.reverse(exercises);
         if (exercises.get(0).isCompleted) return true;
+        if (isExerciseInPast(exercises.get(0).id)) return true;
         if (exercises.size() == 1) return false;
-        return !exercises.get(1).isCompleted;
+        return isExerciseInPast(exercises.get(1).id);
     }
 }
