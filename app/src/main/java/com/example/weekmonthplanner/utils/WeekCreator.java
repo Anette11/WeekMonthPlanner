@@ -213,9 +213,10 @@ public class WeekCreator {
             }
         });
         Collections.reverse(exercises);
-        if (exercises.get(0).isCompleted) return true;
-        if (isExerciseInPast(exercises.get(0).id)) return true;
-        if (exercises.size() == 1) return false;
-        return isExerciseInPast(exercises.get(1).id);
+        boolean isCompleted = exercises.get(0).isCompleted;
+        if (isCompleted) return true;
+        int exerciseDayOfWeek = exercises.get(0).id;
+        if (isExerciseToday(exerciseDayOfWeek)) return false;
+        return isExerciseInPast(exerciseDayOfWeek);
     }
 }
