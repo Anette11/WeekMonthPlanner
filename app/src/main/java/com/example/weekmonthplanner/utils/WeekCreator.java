@@ -91,6 +91,7 @@ public class WeekCreator {
     ) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.ENGLISH);
         Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         if (forNextWeek) calendar.add(Calendar.DATE, 7);
         String dateString;
         if (exerciseIndex >= Calendar.SUNDAY && exerciseIndex <= Calendar.SATURDAY) {
@@ -188,16 +189,22 @@ public class WeekCreator {
 
     public boolean isExerciseInFuture(int exerciseIndex) {
         if (isExerciseToday(exerciseIndex)) return false;
-        if (exerciseIndex == Calendar.SUNDAY && getCurrentDayOfWeekIndex() != Calendar.SUNDAY) {
-            return true;
+        int lastDayOfWeek = Calendar.SUNDAY;
+        if (getCurrentDayOfWeekIndex() == lastDayOfWeek &&
+                exerciseIndex != lastDayOfWeek
+        ) {
+            return false;
         }
         return exerciseIndex > getCurrentDayOfWeekIndex();
     }
 
     public boolean isExerciseInPast(int exerciseIndex) {
         if (isExerciseToday(exerciseIndex)) return false;
-        if (exerciseIndex == Calendar.SUNDAY && getCurrentDayOfWeekIndex() != Calendar.SUNDAY) {
-            return false;
+        int lastDayOfWeek = Calendar.SUNDAY;
+        if (getCurrentDayOfWeekIndex() == lastDayOfWeek &&
+                exerciseIndex != lastDayOfWeek
+        ) {
+            return true;
         }
         return exerciseIndex < getCurrentDayOfWeekIndex();
     }
